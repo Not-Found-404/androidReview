@@ -15,8 +15,8 @@
             serviceIntent = new Intent(MainActivity.this, MyService.class);
             startService(serviceIntent);</pre>
         + 通过调用Context.stopService()或者Service.stopSelf()停止Service
-            > + serivce由其他组件启动的,但是tngzhi过程可以由其他组件或者自身完成;
-            > + 如果仅以启动的方式使用的service,这个service需要具备**自我管理的能力**,并且不需要通过外部组件提供的数据或者功能
+            + serivce由其他组件启动的,但是停止过程可以由其他组件或者自身完成;
+            + 如果仅以启动的方式使用的service,这个service需要具备**自我管理的能力**,并且不需要通过外部组件提供的数据或者功能
 
     + 分类
         + 根据<font color='red'>启动方式</font>分为两类：Started和Bound。
