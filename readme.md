@@ -27,9 +27,12 @@
             + 远程服务用于安卓系统内部之间的应用程序
 
 1. **简述Android系统中利用HandlerThread的实现界面更新的步骤。**
-    + HandlerThread是Thread的子类----是带有消息循环的Thread
-        1. 创建HandlerThread对象,并通过HandlerThread.start()方法启动该线程
-        1. 需要的话，可以获取线程的消息循环，并绑定到Handler上面，通过Handler.post()方法执行线程代码
+    + 在单线程模型下，进行多线程程序设计时，Android可以通过Message Queue并结合Handler和Looper在线程间进行信息交换。
+
+    + Message(消息)  —  可理解为线程间交流(双向)的信息。一般情况下，处理数据的后台线程需要更新UI，则发送Message(内含一些数据->Bundle对象-> setData())给前台UI主线程；或者，前台UI主线程需要发送一些数据给后台线程进行 查询/计算/统计 等处理;
+    + Handler(处理者) -- 是Message的主要处理者，负责：
+        + Message的发送
+        + Message内容的接收/执行处理。
 1. 绑定方式启动服务的特点与ServiceConnection的作用。
 1. Handler如何实现与指定线程的绑定？
 1. SharedPreferences的概念及访问模式。
