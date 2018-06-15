@@ -19,14 +19,17 @@
             + 如果仅以启动的方式使用的service,这个service需要具备**自我管理的能力**,并且不需要通过外部组件提供的数据或者功能
 
     + 分类
-        + 根据<font color='red'>启动方式</font>分为两类：Started和Bound。
+        + 根据**启动方式**分为两类：Started和Bound。
             + Started是通过startService()来启动，主要用于程序内部使用的Service。
             + Bound是通过bindService()来启动，允许多个应用程序共享同一个Service。
-        + 根据<font color='red'>使用范围</font>分为**本地服务**和**远程服务**
+        + 根据**使用范围**分为**本地服务**和**远程服务**
             + 本地服务用于应用程序内部
             + 远程服务用于安卓系统内部之间的应用程序 
 
 1. **简述Android系统中利用HandlerThread的实现界面更新的步骤。**
+    + HandlerThread是Thread的子类----是带有消息循环的Thread
+        1. 创建HandlerThread对象,并通过HandlerThread.start()方法启动该线程
+        1. 需要的话，可以获取线程的消息循环，并绑定到Handler上面，通过Handler.post()方法执行线程代码
 1. 绑定方式启动服务的特点与ServiceConnection的作用。
 1. Handler如何实现与指定线程的绑定？
 1. SharedPreferences的概念及访问模式。
