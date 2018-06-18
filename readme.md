@@ -47,13 +47,15 @@
 1. 绑定方式启动服务的特点与ServiceConnection的作用。
 1. Handler如何实现与指定线程的绑定？
 1. **SharedPreferences的概念及访问模式**。
-    + SharedPreferences是一种轻量级的数据保存方式
-
-    + 通过SharedPreferences可以将NVP（Name/Value Pair，名称/值对）保存在Android的文件系统中，而且SharedPreferences完全屏蔽对文件系统的操作过程
-
-    + 开发人员仅是通过调用SharedPreferences对NVP进行保存和读取
-
-    + 一般用于程序配置参数，或存储少量的程序数据。
+    + 概念
+        + SharedPreferences是一种轻量级的数据保存方式
+        + 通过SharedPreferences可以将NVP（Name/Value Pair，名称/值对）保存在Android的文件系统中，而且SharedPreferences完全屏蔽对文件系统的操作过程
+        + 开发人员仅是通过调用SharedPreferences对NVP进行保存和读取
+        + 一般用于程序配置参数，或存储少量的程序数据。
+    + 访问模式
+        + 私有（MODE_PRIVATE）：仅创建程序有权限对其进行读取或写入;
+        + 全局读（MODE_WORLD_READABLE）：允许其他应用程序有读取操作的权限，但没有写入操作的权限;
+        + 全局写（MODE_WORLD_WRITEABLE）：其他程序可以对其进行写操作。
 
 1. 对于FileOutputStream对象，关闭前必须调用flush（）方法，为什么？
     + 为了提高文件系统的性能，一般调用write()函数时，如果写入的数据量较小，系统会把数据保存在数据缓冲区中，等数据量累积到一定程度时再一次性的写入文件中，因此在调用close()函数关闭文件前，务必要调用flush()函数，将缓冲区内所有的数据写入文件。
