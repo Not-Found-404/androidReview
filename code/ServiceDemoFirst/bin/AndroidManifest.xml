@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="QDLG.LCB.Demo.ServiceDemoFirst"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name=".ServiceDemoFirst"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <service android:name=".RandomService"
+                 android:process=":remote">
+        	<intent-filter>
+        		<action android:name="QDLG.LCB.Demo.ServiceDemoFirst.RandomService"/>
+        	</intent-filter>
+        </service>
+
+    </application>
+    <uses-sdk android:minSdkVersion="3" />
+
+</manifest> 
+
+<!-- 自动将服务运行在新创建的进程中 -->
+<!-- android:process=":remote" -->

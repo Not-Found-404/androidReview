@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/hello"
+    />
+  <Button
+ 	android:id="@+id/startThread"
+ 	android:layout_width="fill_parent"
+ 	android:layout_height="wrap_content"
+ 	android:text="开始线程运行"/>
+ <Button
+ 	android:id="@+id/stopThread"
+ 	android:layout_width="fill_parent"
+ 	android:layout_height="wrap_content"
+ 	android:text="停止线程运行"/>
+</LinearLayout>

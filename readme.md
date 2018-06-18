@@ -17,6 +17,17 @@
         + 通过调用Context.stopService()或者Service.stopSelf()停止Service
             + serivce由其他组件启动的,但是停止过程可以由其他组件或者自身完成;
             + 如果仅以启动的方式使用的service,这个service需要具备**自我管理的能力**,并且不需要通过外部组件提供的数据或者功能
+        + 引用自zyy资料
+            > + 启动方式：隐式启动和显式启动
+            > + 隐式调用，通过调Context.startService()启动Service，通过调用Context.stopService()或Service.stopSelf()停止ServiceService是由其他的组件启动的，但停止过程可以通过其他组件或自身完成；如果仅以启动方式使用的Service，这个Service需要具备自我管理的能力，且不需要通过函数调用向外部组件提供数据或功能(不能获取服务的状态或数据,只是一次性的服务，且启动后一直独立运行，不会随启动它的组件一起消亡)。
+            > + 显式启动:在Intent中指明Service所在的类，并调用startService(Intent)函数启动Service,示例代码如
+                <pre>final Intent serviceIntent = new Intent(this,RandomService.class);
+                startService(serviceintent);</pre>
+            > + 隐式启动代码如下
+                <pre>final Intent serviceIntent = new Intent();
+                serviceIntent.setAction("xxxService");
+                startService(serivceIntent); 
+                </pre>
 
     + 分类
         + 根据**启动方式**分为两类：Started和Bound。
@@ -35,7 +46,15 @@
         + Message内容的接收/执行处理。
 1. 绑定方式启动服务的特点与ServiceConnection的作用。
 1. Handler如何实现与指定线程的绑定？
-1. SharedPreferences的概念及访问模式。
+1. **SharedPreferences的概念及访问模式**。
+    + SharedPreferences是一种轻量级的数据保存方式
+
+    + 通过SharedPreferences可以将NVP（Name/Value Pair，名称/值对）保存在Android的文件系统中，而且SharedPreferences完全屏蔽对文件系统的操作过程
+
+    + 开发人员仅是通过调用SharedPreferences对NVP进行保存和读取
+
+    + 一般用于程序配置参数，或存储少量的程序数据。
+
 1. 对于FileOutputStream对象，关闭前必须调用flush（）方法，为什么？
 1. 在SD卡上操作文件的步骤。
 1. 读取资源中的原始格式文件的步骤。
