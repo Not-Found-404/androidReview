@@ -17,7 +17,7 @@
         + 通过调用Context.stopService()或者Service.stopSelf()停止Service
             + serivce由其他组件启动的,但是停止过程可以由其他组件或者自身完成;
             + 如果仅以启动的方式使用的service,这个service需要具备**自我管理的能力**,并且不需要通过外部组件提供的数据或者功能
-        + 引用自zyy资料
+        + 引用自第三方资料
             > + 启动方式：隐式启动和显式启动
             > + 隐式调用，通过调Context.startService()启动Service，通过调用Context.stopService()或Service.stopSelf()停止ServiceService是由其他的组件启动的，但停止过程可以通过其他组件或自身完成；如果仅以启动方式使用的Service，这个Service需要具备自我管理的能力，且不需要通过函数调用向外部组件提供数据或功能(不能获取服务的状态或数据,只是一次性的服务，且启动后一直独立运行，不会随启动它的组件一起消亡)。
             > + 显式启动:在Intent中指明Service所在的类，并调用startService(Intent)函数启动Service,示例代码如
@@ -162,12 +162,54 @@
     + 程序开发人员通过继承ContentProvider类可以创建一个新的数据提供者，过程可以分为三步：
         1. 声明CONTENT_URI，实现UriMatcher
         1. 继承ContentProvider，并重载六个函数
+            + delete():删除数据
+            + insert()：添加数据
+            + qurey()：查询数据
+            + update()：更新数据
+            + onCreate()：初始化底层数据和建立数据连接等工作
+            + getType()：返回指定URI的MIME数据类型，
+
         1. 在Manifest文件中注册ContentProvider
     + 为了写代码方便，一般需要定义一个常量构成的类，专门用于存放URI、MIME类型、数据集（表）的构成字段名称等。
     > 示例代码：ContentProviderDatabaseDemo
 1. 什么是位置服务，相关的类有哪些？
+    + 位置服务（Location-Based Services，LBS），又称定位服务或基于位置的服务，融合了GPS定位、移动通信、导航等多种技术，提供了与空间位置相关的综合应用服务
+
+    + 提供位置服务，首先需要获得LocationManager对象，使用LocationManager对象的isProviderEnabled(provider)方法来检测定位设备是否已经启用
+
 1. 如何实现追踪定位？
-1. 如何实现敏感区域设置？
+    + 通过设置监听器，来监听位置变化。可以根据位置的距离变化(关键设置)和时间间隔设定产生位置改变事件的条件，这样可以避免因微小的距离变化而产生大量的位置改变事件。
+    > + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()： LocationManager中设定监听位置变化的代码如下：
+    > + locationManager.requestLocationUpdates(provider, 2000, 10, locationListener);
+    > + 第1个参数是定位的方法，GPS定位或网络定位(字符串)
+    > + 第2个参数是产生位置改变事件的时间间隔，单位为毫秒
+    > + 第3个参数是距离条件，单位是米---关键设置
+    > + 第4个参数是回调函数，在满足条件后的位置改变事件的处理函数
+
+    <pre>
+    LocationListener locationListener = new LocationListener(){
+        public void onLocationChanged(Location location) {
+        } //在设备的位置改变时被调用
+        public void onProviderDisabled(String provider) {
+        }//在用户禁用具有定位功能的硬件时被调用
+        public void onProviderEnabled(String provider) {
+        }//在用户启用具有定位功能的硬件时被调用
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+         /*在提供定位功能的硬件的状态改变时被调用，如从不可获取位置信息状态到可以获取位置信息的状态，反之亦然*/
+        }
+    };</pre>
+1. **如何实现敏感区域设置？**
+    + 当用户的手机靠近事先设定的固定点时,系统可以检测到,并触发相应的处理。
+    + 具体步骤
+        + 使用LocationManager对象的addProximityAlert()方法添加一个临近警告，具体参数如下：
+            + Latitude: 固定点的纬度
+            + Longitude：固定点的经度
+            + Radius：敏感区的半径
+            + Expiration：警告失效期（ms），-1表示永不失效
+            + PendingIntent(满足一定条件才执行的Intent):内部包括警告触发的intent对象--经Android系统分析确定接收者（如: 广播接收器，Activity或Service，不同的接收者产生PendingIntent的方式不同）
+
+    + 编写接收响应上述Intent对象的广播接收器
+
 1. 如何使用Overlay?
 1. Projection 类的作用是什么？
 1. 自定义View的定义/调用步骤。
