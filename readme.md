@@ -113,7 +113,28 @@
 
         + 一般情况下getReadableDatabase()与getWritableDatabase()返回的都是可读写的数据库对象，只有在数据库仅开放只读权限或磁盘已满时getReadableDatabase()方法才会返回一个只读的数据库对象。
         + onUpgrade()方法在数据库的版本发生变化时会被调用，数据库的版本是由程序员控制的，假设数据库现在的版本是1，由于业务的需要，修改了数据库表的结构，这时候就需要升级软件，升级软件时希望更新用户手机里的数据库表结构，为了实现这一目的，可以把新的数据库版本设置为2，并且在onUpgrade()方法里面实现表结构的更新。当系统在构造SQLiteOpenHelper类的对象时，如果发现版本号不一样（比较构造函数的参数中的版本和数据库文件版本），就会自动调用onUpgrade函数，在这里对数据库进行升级----改现有表为临时表，创建新表，复制/修改数据，删除临时表（注意执行效率问题）。
+    + SQLiteDataBase对象
+        + 使用专用方法（SQLiteDatabase对象的insert、delete、update和query方法）操作数据库更加简洁、易用，而且不需要了解太多的SQL语法—专为不太熟悉SQL语言的程序员准备。专用方法需要使用ContentValues对象。ContentValues对象是一个数据承载容器，类似于MAP，它提供了存取数据对应的put(String key, xxxx value)和getAsxxxx(String key)方法，key为字段名称，value为字段值，xxxx指的是各种常用的数据类型， 如：String、Integer等
 
+        + insert方法（long insert (String table, String nullColumnHack, ContentValues values) )
+            + 首先构造一个ContentValues对象，然后调用ContentValues对象的put()方法，将每个属性的值写入到ContentValues对象中，最后使用SQLiteDatabase对象的insert()方法，将ContentValues对象中的数据写入指定的数据库表中。
+            + insert()方法的返回值是新数据插入的位置，若返回-1则表示插入失败。
+            + 对于表中自增的字段，不需要在ContentValues对象中设置它的值。
+            + 如果第三个参数values 不为null并且其中元素的个数大于0 (否则插入会出错)，可以把第二个参数(空值列名)设置为null，以保证后台生成的SQL语句的values部分不是空，避免语法错误。
+        + query方法（Cursor query (String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy , String limit)  ）
+            + query()方法实际上是把select语句拆分成了若干个组成部分，然后作为方法的输入参数。
+            + 不用的参数（条件）应设置为null；
+            + 查询条件子句selection中允许使用占位符，其对应的字符串在selectionArgs数组中一一对应设置；
+            + limit指定偏移量和获取的记录数，相当于select语句limit关键字后面的部分
+        + update方法（ int update (String table, ContentValues values, String whereClause, String[] whereArgs) ）
+            + 首先构造一个ContentValues对象，然后调用ContentValues对象的put()方法，将要修改的属性的值写入到ContentValues对象中，最后使用SQLiteDatabase对象的update()方法，将ContentValues对象中的数据写入指定的数据库表中。
+            + update()方法的返回值是修改数据的行数。
+            + whereClause是更新条件，可以使用占位符，占位符与whereArgs数组中的字符串一一对应。
+        + delete方法（ int delete (String table, String whereClause, String[] whereArgs) ）
+            + delete()方法的返回值是删除的行数。
+            + whereClause是更新条件，可以使用占位符，占位符与whereArgs数组中的字符串一一对应。
+            + 如果后2个参数为null，则删除所有数据。
+        > 示例代码:SQLiteDemoSecond
 1. Android系统中SQLite事务及其使用方法。
 1. ContentProvider的概念及作用。
 1. URI的构成及作用。
