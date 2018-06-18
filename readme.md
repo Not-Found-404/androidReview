@@ -136,8 +136,19 @@
             + 如果后2个参数为null，则删除所有数据。
         > 示例代码:SQLiteDemoSecond
 1. Android系统中SQLite事务及其使用方法。
+    + 事务定义了一组SQL命令的边界，这组命令或者作为一个整体被全部执行，或者都不执行。例如：转帐操作。
+    + 在Android平台上，数据库操作被意外中止的情况会频繁出现:  Android系统会杀死apps/threads/activities 中断数据库的使用，电池电量会耗尽或被移除等，所以，使用数据库事务至关重要。
+    + 使用SQLiteDatabase的beginTransaction()方法可以开启一个事务，程序执行到endTransaction() 方法时会检查事务的标志是否为成功，如果为成功则提交事务，否则回滚事务。
+    + 事务成功设置: 当应用需要提交事务，必须在程序执行到endTransaction()方法之前使用setTransactionSuccessful() 方法设置事务的标志为成功；如果不调用该方法，默认会回滚事务。示例: SQLiteDemoThird
+
 1. ContentProvider的概念及作用。
-1. URI的构成及作用。
+1. **URI的构成及作用**
+    + URI是通用资源标志符（Uniform Resource Identifier），用来定位任何远程或本地的可用资源。
+    + 一个Uri由以下几部分组成：
+        + scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content:// 
+        + 主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它，一般用包名+ContentProvider的类名来表示
+        + 路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，具体示例如下：
+
 1. 创建ContentProvider的步骤。
 1. 什么是位置服务，相关的类有哪些？
 1. 如何实现追踪定位？
