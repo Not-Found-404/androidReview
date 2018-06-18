@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+	<TextView  
+	    android:id="@+id/label"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content" 
+    	android:text="远程服务演示">
+	</TextView>
+	
+	<Button android:id="@+id/bind" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:text="远程服务绑定" >
+	</Button>
+	
+	<Button android:id="@+id/unbind" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:text="取消服务绑定" >
+	</Button>
+	
+	<Button android:id="@+id/compute_add" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:text="加法运算" >
+	</Button>
+	
+</LinearLayout>

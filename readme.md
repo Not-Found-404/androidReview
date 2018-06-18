@@ -56,10 +56,47 @@
     + 一般用于程序配置参数，或存储少量的程序数据。
 
 1. 对于FileOutputStream对象，关闭前必须调用flush（）方法，为什么？
-1. 在SD卡上操作文件的步骤。
+    + 为了提高文件系统的性能，一般调用write()函数时，如果写入的数据量较小，系统会把数据保存在数据缓冲区中，等数据量累积到一定程度时再一次性的写入文件中，因此在调用close()函数关闭文件前，务必要调用flush()函数，将缓冲区内所有的数据写入文件。
+
+1. **在SD卡上操作文件的步骤**
+    + 添加SD卡访问权限
+
+    + 判断SD卡是否正确安装
+
+    + 用File类、FileOutput类或者
+    FileInputStream类完成对文件的操作和步骤:
+        + 创建File类的对象时，指定文件路径和名称
+        + 使用File类的对象来调用前面文件操作方法
+        + 读写文件前，创建FileOutputStream或者FileInputStreaml类的对象时关联要读取/写的file类对象。
+        + 写文件完成后一定要调用flush()和close()。
+        > 參考代码: ExternalFileDemo
+
 1. 读取资源中的原始格式文件的步骤。
-1. SQLite数据库的特点。
+    + 原始格式文件可以是任何格式的文件，例如视频格式文件、音频格式文件、图像文件和数据文件等等，在应用程序编译和打包时，/res/raw目录下的所有文件都会保留原有格式不变。
+    + /res/xml目录下的XML文件，一般用来保存格式化的数据，在应用程序编译和打包时会将XML文件转换为高效的二进制格式，应用程序运行时会以特殊的方式进行访问。
+    + 读取原始格式文件的步骤
+        1. 首先需要调用getResources()函数获得资源对象
+        1. 然后通过调用资源对象的openRawResource()函数，以二进制流（InputStream  --  FileInputStream的父类）的形式打开指定的原始格式文件:
+            + 通过流对象读取文件;
+            + 读取文件结束后，调用close()函数关闭文件流.
+        1. 将从文件读出来的数据转换为String输出时，应格外注意文件的编码问题，一定要使用与原始格式文件属性中相同的编码(简体中文--GBK)。
+
+1. SQLite数据库的特点
+    + SQLite数据库特点（1）
+        + SQLite，是一款轻型的数据库;
+        + 适用于嵌入式系统，可以嵌入到使用它的应用程序中;
+        + 占用资源非常少，运行高效可靠，可移植性好;
+        + 提供了零配置（zero-configuration）运行模式;
+        + 客户端和服务器在同一个进程内运行，这样能简化管理、减少开销、使应用程序更加易于部署和使用;
+    + SQLite数据库特点（2）
+        + SQLite 和其他数据库最大的不同就是对数据类型的支持，创建一个表时，可以在 CREATE TABLE 语句中指定某列的数据类型，但是你可以把任何数据类型放入任何列中。SQLite 称之为“弱类型”（manifest typing.）
+        + SQLite 不支持一些标准的 SQL 功能，特别是外键约束（FOREIGN KEY constrains），嵌套 transaction 和 RIGHT OUTER JOIN 和 FULL OUTER JOIN, 还有一些 ALTER TABLE （不支持添加多列，但可以一次添加单列/改列名）功能。除了上述功能外，SQLite 是一个完整的 SQL 系统，拥有完整的触发器，事务等，支持视图，子查询。
+        + 免费，代码完全开放
 1. SQLite数据库遵循的ACID是什么？
+    + A:原子性(Atomicity）
+    + C:一致性（Consistency）
+    + I:隔离性（Isolation—可串行化）
+    + D:持久性（Durability）
 1. 简述SQLiteOpenHelper类的作用及使用方法。
 1. Android系统中SQLite事务及其使用方法。
 1. ContentProvider的概念及作用。

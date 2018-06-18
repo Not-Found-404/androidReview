@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="操作数据 :"
+    />
+ <EditText
+ 	android:id="@+id/input"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" />
+  <LinearLayout
+  	android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+ <Button
+  	android:id="@+id/createDir"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="创建文件夹"/>
+ <Button
+  	android:id="@+id/createFile"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="创建文件"/>
+  <Button
+  	android:id="@+id/showDir"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="查看文件夹"/>
+  </LinearLayout>
+  <LinearLayout
+  	android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+<Button
+  	android:id="@+id/writeFile"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="写文件"/>
+  <Button
+  	android:id="@+id/copyFile"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="复制文件"/>
+  <Button
+  	android:id="@+id/renFile"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="文件改名"/>
+ </LinearLayout>
+ <LinearLayout
+  	android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+  <Button
+  	android:id="@+id/readFile"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="读文件"/>
+   <Button
+  	android:id="@+id/deleteFile"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="删除文件"/>
+  <Button
+  	android:id="@+id/deleteFolder"
+  	android:layout_width="100dp" 
+    android:layout_height="wrap_content"
+    android:text="删除文件夹"/>
+  </LinearLayout>
+ <TextView 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="操作结果:"
+    />
+<TextView 
+ 	android:id="@+id/output"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:textSize="32sp"/>
+</LinearLayout>
