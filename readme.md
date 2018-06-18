@@ -135,21 +135,36 @@
             + whereClause是更新条件，可以使用占位符，占位符与whereArgs数组中的字符串一一对应。
             + 如果后2个参数为null，则删除所有数据。
         > 示例代码:SQLiteDemoSecond
-1. Android系统中SQLite事务及其使用方法。
+1. **Android系统中SQLite事务及其使用方法。**
     + 事务定义了一组SQL命令的边界，这组命令或者作为一个整体被全部执行，或者都不执行。例如：转帐操作。
     + 在Android平台上，数据库操作被意外中止的情况会频繁出现:  Android系统会杀死apps/threads/activities 中断数据库的使用，电池电量会耗尽或被移除等，所以，使用数据库事务至关重要。
     + 使用SQLiteDatabase的beginTransaction()方法可以开启一个事务，程序执行到endTransaction() 方法时会检查事务的标志是否为成功，如果为成功则提交事务，否则回滚事务。
     + 事务成功设置: 当应用需要提交事务，必须在程序执行到endTransaction()方法之前使用setTransactionSuccessful() 方法设置事务的标志为成功；如果不调用该方法，默认会回滚事务。示例: SQLiteDemoThird
 
-1. ContentProvider的概念及作用。
+1. **ContentProvider的概念及作用。**
+    + ContentProvider概念
+        + ContentProvider（数据提供者）是在应用程序间共享数据的一种接口机制。
+        + ContentProvider提供了高级的数据共享方法，应用程序可以指定需要共享的数据，而其他应用程序则可以在不知数据来源、路径的情况下，对共享数据进行查询、添加、删除和更新（CRUD）等完全一致的操作。
+        + 许多Android系统的内置数据也通过ContentProvider提供给用户使用，例如通讯录、音视频文件和图像文件等。
+        + 程序开发人员使用ContentResolver对象与ContentProvider进行交互，而ContentResolver则通过URI确定需要访问的ContentProvider的数据集（对应数据库、文件或网络等中的数据）。
+        + 在发起一个请求的过程中，Android首先根据URI确定处理这个查询的ContentProvider，然后初始化ContentProvider所有需要的资源，这个初始化的工作是Android系统完成的，无需程序开发人员参与。
+        + 一般情况下针对特定的数据只有一个ContentProvider对象，但却可以同时与多个需要使用该数据的ContentResolver进行交互，从这个角度讲：
+            > ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
+
 1. **URI的构成及作用**
     + URI是通用资源标志符（Uniform Resource Identifier），用来定位任何远程或本地的可用资源。
     + 一个Uri由以下几部分组成：
-        + scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content:// 
+        + scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content://
         + 主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它，一般用包名+ContentProvider的类名来表示
         + 路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，具体示例如下：
 
-1. 创建ContentProvider的步骤。
+1. **创建ContentProvider的步骤。**
+    + 程序开发人员通过继承ContentProvider类可以创建一个新的数据提供者，过程可以分为三步：
+        1. 声明CONTENT_URI，实现UriMatcher
+        1. 继承ContentProvider，并重载六个函数
+        1. 在Manifest文件中注册ContentProvider
+    + 为了写代码方便，一般需要定义一个常量构成的类，专门用于存放URI、MIME类型、数据集（表）的构成字段名称等。
+    > 示例代码：ContentProviderDatabaseDemo
 1. 什么是位置服务，相关的类有哪些？
 1. 如何实现追踪定位？
 1. 如何实现敏感区域设置？
