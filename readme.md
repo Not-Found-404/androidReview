@@ -104,7 +104,7 @@
         + 使用File类的对象来调用前面文件操作方法
         + 读写文件前，创建FileOutputStream或者FileInputStreaml类的对象时关联要读取/写的file类对象。
         + 写文件完成后一定要调用flush()和close()。
-        > 參考代码: ExternalFileDemo
+    + > 參考代码: ExternalFileDemo
 
 1. **读取资源中的原始格式文件的步骤。**
     1. 首先需要调用getResources()函数获得资源对象
@@ -137,7 +137,7 @@
         + 用于对数据库版本进行管理，该类是一个抽象类，必须继承它才能使用。
         + SQLiteOpenHelper 类根据开发应用程序的需要，封装了创建和更新数据库使用的逻辑，至少需要实现三个方法：
             + 构造函数: 这个方法需要四个参数--上下文环境，数据库名字，一个可选的游标工厂（通常是 null），正在使用的数据库的版本。
-                > 数据库文件固定位置：/data/data/包名/databases/
+                + > 数据库文件固定位置：/data/data/包名/databases/
             + onCreate()方法，它需要一个 SQLiteDatabase 对象作为参数，根据需要对这个对象创建表和初始化数据。
             + onUpgrade() 方法，它需要三个参数，一个 SQLiteDatabase 对象，一个旧的版本号和一个新的版本号，通过这三个参数就可以把一个数据库从旧的模型转变到新的模型。----实际上,只要SQLiteOpenHelper的构造函数中的版本与数据库文件版本不同就会回调该方法。
 
@@ -167,7 +167,7 @@
             + delete()方法的返回值是删除的行数。
             + whereClause是更新条件，可以使用占位符，占位符与whereArgs数组中的字符串一一对应。
             + 如果后2个参数为null，则删除所有数据。
-        > 示例代码:SQLiteDemoSecond
+        + > 示例代码:SQLiteDemoSecond
 1. **Android系统中SQLite事务及其使用方法。**
     + 事务定义了一组SQL命令的边界，这组命令或者作为一个整体被全部执行，或者都不执行。例如：转帐操作。
     + 在Android平台上，数据库操作被意外中止的情况会频繁出现:  Android系统会杀死apps/threads/activities 中断数据库的使用，电池电量会耗尽或被移除等，所以，使用数据库事务至关重要。
@@ -203,7 +203,7 @@
 
         1. 在Manifest文件中注册ContentProvider
     + 为了写代码方便，一般需要定义一个常量构成的类，专门用于存放URI、MIME类型、数据集（表）的构成字段名称等。
-    > 示例代码：ContentProviderDatabaseDemo
+    + > 示例代码：ContentProviderDatabaseDemo
 1. **什么是位置服务，相关的类有哪些？**
     + 位置服务（Location-Based Services，LBS），又称定位服务或基于位置的服务，融合了GPS定位、移动通信、导航等多种技术，提供了与空间位置相关的综合应用服务
 
