@@ -179,7 +179,7 @@
 
 1. 如何实现追踪定位？
     + 通过设置监听器，来监听位置变化。可以根据位置的距离变化(关键设置)和时间间隔设定产生位置改变事件的条件，这样可以避免因微小的距离变化而产生大量的位置改变事件。
-    > + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()： LocationManager中设定监听位置变化的代码如下：
+    + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()： LocationManager中设定监听位置变化的代码如下：
     > + locationManager.requestLocationUpdates(provider, 2000, 10, locationListener);
     > + 第1个参数是定位的方法，GPS定位或网络定位(字符串)
     > + 第2个参数是产生位置改变事件的时间间隔，单位为毫秒
@@ -209,8 +209,32 @@
             + PendingIntent(满足一定条件才执行的Intent):内部包括警告触发的intent对象--经Android系统分析确定接收者（如: 广播接收器，Activity或Service，不同的接收者产生PendingIntent的方式不同）
 
     + 编写接收响应上述Intent对象的广播接收器
+    + 其他代码：
+    <pre>
+    manager = (LocationManager)getSystemService(LOCATION_SERVICE);
+    //由于不是马上触发，所以需要PendingIntent
+    Intent intent = new Intent(PROXIMITY_ALERT, Uri.parse(“geo:” + 纬度 + “,” + 经度));
+    intent.putExtra(“message”,  "Destination One");
+    pIntent = PendingIntent.getBroadcast(this, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+    manager.addProximityAlert(纬度, 经度, 半径, -1, pIntent);  //设置敏感区域，及待触发的PendingIntent
 
+    //为接收敏感区域警告，创建广播接收器
+    //在AndroidManifest.xml中进行接收广播的注册
+    也可以动态注册广播接收器
+    proxReceiver = new ProximityReceiver();
+    IntentFilter iFilter = new IntentFilter(PROXIMITY_ALERT);
+    iFilter.addDataScheme("geo");
+    registerReceiver(proxReceiver, iFilter);
+    </pre>
 1. 如何使用Overlay?
+    + 通过在MapView上添加覆盖层，可以在指定的位置添加注解、绘制图像或处理触摸事件等。
+
+    + Google地图上可以加入多个覆盖层，所有覆盖层按一定顺序加在地图图层之上，每个覆盖层均可以对用户的点击事件做出响应。
+    + 创建覆盖层需继承Overlay类的子类：
+        + 重载draw()方法为指定位置添加注解/图像等；
+        + 重载onTap()方法处理用户的点击操作。
+        + 在draw（）方法中添加注解/图像，需要使用“画布”（Canvas）来实现绘制图形或文字，绘制的位置是屏幕坐标，这就需要将地图上的物理坐标（经纬度表示的）与屏幕坐标进行转换。
+
 1. Projection 类的作用是什么？
 1. 自定义View的定义/调用步骤。
 1. Android 2D绘图相关的对象有哪些？
