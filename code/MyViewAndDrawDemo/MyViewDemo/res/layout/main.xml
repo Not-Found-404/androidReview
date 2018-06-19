@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:myapp="http://schemas.android.com/apk/res/QDLG.LCB.Demo.MyViewDemo"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<Button
+ 	android:id="@+id/btn"
+ 	android:layout_width="fill_parent"
+ 	android:layout_height="wrap_content"
+ 	android:text="更改显示文本"/>
+
+<QDLG.LCB.Demo.MyViewDemo.MyView 
+	android:id="@+id/myview" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" 
+    myapp:textColor="#FF0000"
+    myapp:textSize="50dip"
+    myapp:imgBackground="@drawable/bk"
+    />
+
+</LinearLayout>
