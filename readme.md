@@ -21,13 +21,12 @@
             > + 启动方式：隐式启动和显式启动
             > + 隐式调用，通过调Context.startService()启动Service，通过调用Context.stopService()或Service.stopSelf()停止ServiceService是由其他的组件启动的，但停止过程可以通过其他组件或自身完成；如果仅以启动方式使用的Service，这个Service需要具备自我管理的能力，且不需要通过函数调用向外部组件提供数据或功能(不能获取服务的状态或数据,只是一次性的服务，且启动后一直独立运行，不会随启动它的组件一起消亡)。
             > + 显式启动:在Intent中指明Service所在的类，并调用startService(Intent)函数启动Service,示例代码如
-                <pre>final Intent serviceIntent = new Intent(this,RandomService.class);
-                startService(serviceintent);</pre>
+            >    <pre>final Intent serviceIntent = new Intent(this,RandomService.class);
+            >    startService(serviceintent);</pre>
             > + 隐式启动代码如下
-                <pre>final Intent serviceIntent = new Intent();
-                serviceIntent.setAction("xxxService");
-                startService(serivceIntent); 
-                </pre>
+            >    <pre>final Intent serviceIntent = new Intent();
+            >   serviceIntent.setAction("xxxService");
+            >   tartService(serivceIntent);</pre>
 
     + 分类
         + 根据**启动方式**分为两类：Started和Bound。
@@ -44,8 +43,37 @@
     + Handler(处理者) -- 是Message的主要处理者，负责：
         + Message的发送
         + Message内容的接收/执行处理。
-1. 绑定方式启动服务的特点与ServiceConnection的作用。
-1. Handler如何实现与指定线程的绑定？
+    + 引用自他人资料
+        > 1. 定义Handler对象并初始化，重写handleMessage（）函数
+        > 2. 定义Thread线程对象，通常写成一个类形式（如class ThreadTest implements Runnable），在run()方法中操作数据，并把数据handler.sendMessage（）方法传输     到handler对象中，并开启线程。（注意：该步骤不一定用Thread实现，也可以利用TimeTask实现，具体的操作同样放在run()方法中）
+        > 3. 在handleMessage（）函数中根据不同的数据形式实现不同的方法。
+
+1. **绑定方式启动服务的特点与ServiceConnection的作用。**
+    + 引用自他人资料
+        > + 特点：绑定方式使用service，能够获取到service对象，不仅能正常启动service,而且能调用正在运行的service对象的公有方法和属性。
+        > + 为了使service支持绑定方式，需要在service类中重载onBind()方法，并在onBind()方法中返回service对象。
+        > <pre>
+        > public class MathService extends Service{
+        >   private final IBinder mBinder = new LocalBinder();//辅助内部类的对象
+        >   //辅助获取service对象的内部类
+        >   public class LocalBinder extend Binder{
+        >       MathService getService(){//获取service对象的具体方法
+        >       return MathService.this;
+        >   }
+        >   //绑定连接之后，此方法的返回值作为onServiceConnected()方法的参数
+        >   @Override
+        >   public IBinder onBind(Intent intent){
+        >       return mBinder;//返回可以获取service的辅助对象
+        >   }
+        >}
+        > /*当service被绑定时，系统会调用onBind()函数,通过onBind()函数的返回值(mBinder)，将Service对象返回给调用者*/</pre>
+        > + ServiceConnection的作用
+            > + ![avatar](http://www.qtu404.com/imageLib/cloudEase/twitter/asdasd.png)
+1. **Handler如何实现与指定线程的绑定？**
+    + 引用自别人的资料
+        > + 后台线程要想对某个目标线程发送消息，就必须能够获取目标线程的Handler对象，然后通过引用该Handler对象发送消息sendMessage(Message)。
+        > + 接收消息的目标线程要创建Handler对象，需要先继承Handler类，然后实现该类的 handleMessage(Message)方法，用来处理收到的Message的内容
+
 1. **SharedPreferences的概念及访问模式**。
     + 概念
         + SharedPreferences是一种轻量级的数据保存方式
@@ -149,7 +177,7 @@
         + 程序开发人员使用ContentResolver对象与ContentProvider进行交互，而ContentResolver则通过URI确定需要访问的ContentProvider的数据集（对应数据库、文件或网络等中的数据）。
         + 在发起一个请求的过程中，Android首先根据URI确定处理这个查询的ContentProvider，然后初始化ContentProvider所有需要的资源，这个初始化的工作是Android系统完成的，无需程序开发人员参与。
         + 一般情况下针对特定的数据只有一个ContentProvider对象，但却可以同时与多个需要使用该数据的ContentResolver进行交互，从这个角度讲：
-            > ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
+            + ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
 
 1. **URI的构成及作用**
     + URI是通用资源标志符（Uniform Resource Identifier），用来定位任何远程或本地的可用资源。
@@ -179,13 +207,15 @@
 
 1. **如何实现追踪定位？**
     + 通过设置监听器，来监听位置变化。可以根据位置的距离变化(关键设置)和时间间隔设定产生位置改变事件的条件，这样可以避免因微小的距离变化而产生大量的位置改变事件。
-    + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()： LocationManager中设定监听位置变化的代码如下：
-    > + locationManager.requestLocationUpdates(provider, 2000, 10, locationListener);
-    > + 第1个参数是定位的方法，GPS定位或网络定位(字符串)
-    > + 第2个参数是产生位置改变事件的时间间隔，单位为毫秒
-    > + 第3个参数是距离条件，单位是米---关键设置
-    > + 第4个参数是回调函数，在满足条件后的位置改变事件的处理函数
 
+    + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()：
+    + LocationManager中设定监听位置变化的代码如下：
+        + locationManager.requestLocationUpdates(provider, 2000, 10, locationListener);
+            + 第1个参数是定位的方法，GPS定位或网络定位(字符串)
+            + 第2个参数是产生位置改变事件的时间间隔，单位为毫秒
+            + 第3个参数是距离条件，单位是米---关键设置
+            + 第4个参数是回调函数，在满足条件后的位置改变事件的处理函数
+    + 示例代码
     <pre>
     LocationListener locationListener = new LocationListener(){
         public void onLocationChanged(Location location) {
@@ -250,19 +280,19 @@
     1. 然后，在布局文件中添加新定义的View。
     1. 注意要在布局文件的前面添加命名空间，例如`xmlns:myapp=“http://schemas.android.com/apk/res/包名”` ，这样以后就可以在布局文件中通过myapp:属性名  来设置新定义的View的各项属性值了。
     1.最后，在Activity中像系统中的View一样使用我们自定义的View了。
+    + tips
+        + 在Android中，可以自定义View（控件扩展）---任何一个View类都只需**重写onDraw()方法**就可以**实现自定义界面**显示，自定义的视图可以是复杂的3D实现，也可以是非常简单的文本形式等。
+        + View类是Android的一个超类，这个类几乎包含了所有的屏幕控件。
+        + 每一个View都有一个用于绘图的画布，这个画布可以进行任意扩展
+        + 使用onDraw绘图：更新View需要使用invalidate方法。需要注意的是，invalidate 不能直接在除UI线程之外的线程中调用。
+        + 如果需要View接受用户的输入，一般需要重载onKeyUp、onKeyDown、onTouchEvent等方法。
     + > 示例代码：code -> MyViewAndDrawDemo -> MyViewDemo
-    > + 在Android中，可以自定义View（控件扩展）---任何一个View类都只需**重写onDraw()方法**就可以**实现自定义界面**显示，自定义的视图可以是复杂的3D实现，也可以是非常简单的文本形式等。
-    > + View类是Android的一个超类，这个类几乎包含了所有的屏幕控件。
-    > + 每一个View都有一个用于绘图的画布，这个画布可以进行任意扩展
-    > + 使用onDraw绘图：更新View需要使用invalidate方法。需要注意的是，invalidate 不能直接在除UI线程之外的线程中调用。
-    > + 如果需要View接受用户的输入，一般需要重载onKeyUp、onKeyDown、onTouchEvent等方法。
-
 1. **Android 2D绘图相关的对象有哪些？**
     + Canvas类
-        > + Canvas意为“帆布”，这里我们可以理解为绘图所用的画布。使用Canvas类提供的各种方法可以在画布上绘制线条、矩形、圆以及其他可绘制图形。
-        > + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
-        > + 引用关系：Activity    -> View -> Cavas
-        > + 通过重写View.onDraw()方法，可以在指定的画布上绘图。onDraw()方法唯一的参数就是指定在哪个Canvas实例上绘图。
+        + Canvas意为“帆布”，这里我们可以理解为绘图所用的画布。使用Canvas类提供的各种方法可以在画布上绘制线条、矩形、圆以及其他可绘制图形。
+        + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
+        + 引用关系：Activity    -> View -> Cavas
+        + 通过重写View.onDraw()方法，可以在指定的画布上绘图。onDraw()方法唯一的参数就是指定在哪个Canvas实例上绘图。
         + 画布Canvas(续)—主要方法
             + drawRect   //画矩形
             + drawCircle  //画圆
@@ -305,7 +335,7 @@
 
     + 作用对象：动画可用于一个View，也可用于一个Activity
 
-1. Android补间动画的基本类型有哪些？
+1. **Android补间动画的基本类型有哪些？**
   
     |效果| XML| CODE |
     | :- | :-: | :-: |
@@ -313,7 +343,28 @@
     | 渐变尺寸缩放动画效果 | scale | ScaleAnimation |
     | 画面转换位置移动动画效果| translate | TranslateAnimation |
     |画面转移旋转动画效果|rotate|RotateAnimation|
-1. 简述Android动画中的坐标表示方法。
+1. **简述Android动画中的坐标表示方法。**
+    + xml动画文件中的坐标（相对于动画对象的初始位置）：
+
+    + 绝对距离坐标
+        + 直接写数值
+        + 表示从当前位置出发到指定点的横/纵距离（像素数）
+    + 相对于控件本身的坐标
+        + 数值%，如：60%
+        + 100%表示从当前位置出发，到指定点正好一个控件的宽度/高度
+    + 相对于父控件的坐标
+        + 数值%p，如：60%p
+        + 100%p表示从当前位置出发，到指定点正好一个父控件的宽度/高度
+    + 引用的别人的资料
+        > 4个动画
+        > 1. AlphaAnimation
+        > 2. ScaleAnimation
+        > 3. RotateAnimation
+        > 4. TranslateAnimation
+        > + Animation.ABSOLUTE:指的绝对坐标(单位像素),假如100,就是相对于原点正方向偏移100个像素. 
+        > + Animation.RELATIVE_TO_SELF:指的是相对于自己.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移自身控件百分之五十长度. 
+        > + Animation.RELATIVE_TO_PARENT:指的是相对于父类.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移父控件百分之五十长度.
+
 1. Android中实现Tween动画的方式及步骤。
 1. Frame动画的具体实现步骤。
 1. 动画监听器的概念及实现。
