@@ -1,7 +1,7 @@
 # 安卓复习
 
 1. **简述服务的特点及启动方式的分类。**
-
+    + ![avatar](http://www.qtu404.com//imageLib/cloudEase/twitter/DTNIzmdWsAcYTe7.jpg)
     + 特点
         + 没有用户界面，其他特性很像Activity
         + 比后台Activity优先级高，不会被轻易终止
@@ -57,7 +57,7 @@
         + 全局读（MODE_WORLD_READABLE）：允许其他应用程序有读取操作的权限，但没有写入操作的权限;
         + 全局写（MODE_WORLD_WRITEABLE）：其他程序可以对其进行写操作。
 
-1. **对于FileOutputStream对象，关闭前必须调用flush（）方法，为什么？**
+1. **对于FileOutputStream对象，关闭前必须调用flush()方法，为什么？**
     + 为了提高文件系统的性能，一般调用write()函数时，如果写入的数据量较小，系统会把数据保存在数据缓冲区中，等数据量累积到一定程度时再一次性的写入文件中，因此在调用close()函数关闭文件前，务必要调用flush()函数，将缓冲区内所有的数据写入文件。
 
 1. **在SD卡上操作文件的步骤**
@@ -172,12 +172,12 @@
         1. 在Manifest文件中注册ContentProvider
     + 为了写代码方便，一般需要定义一个常量构成的类，专门用于存放URI、MIME类型、数据集（表）的构成字段名称等。
     > 示例代码：ContentProviderDatabaseDemo
-1. 什么是位置服务，相关的类有哪些？
+1. **什么是位置服务，相关的类有哪些？**
     + 位置服务（Location-Based Services，LBS），又称定位服务或基于位置的服务，融合了GPS定位、移动通信、导航等多种技术，提供了与空间位置相关的综合应用服务
 
     + 提供位置服务，首先需要获得LocationManager对象，使用LocationManager对象的isProviderEnabled(provider)方法来检测定位设备是否已经启用
 
-1. 如何实现追踪定位？
+1. **如何实现追踪定位？**
     + 通过设置监听器，来监听位置变化。可以根据位置的距离变化(关键设置)和时间间隔设定产生位置改变事件的条件，这样可以避免因微小的距离变化而产生大量的位置改变事件。
     + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()： LocationManager中设定监听位置变化的代码如下：
     > + locationManager.requestLocationUpdates(provider, 2000, 10, locationListener);
@@ -209,7 +209,7 @@
             + PendingIntent(满足一定条件才执行的Intent):内部包括警告触发的intent对象--经Android系统分析确定接收者（如: 广播接收器，Activity或Service，不同的接收者产生PendingIntent的方式不同）
 
     + 编写接收响应上述Intent对象的广播接收器
-    + 其他代码：
+    + 示例代码：
     <pre>
     manager = (LocationManager)getSystemService(LOCATION_SERVICE);
     //由于不是马上触发，所以需要PendingIntent
@@ -226,7 +226,7 @@
     iFilter.addDataScheme("geo");
     registerReceiver(proxReceiver, iFilter);
     </pre>
-1. 如何使用Overlay?
+1. **如何使用Overlay?**
     + 通过在MapView上添加覆盖层，可以在指定的位置添加注解、绘制图像或处理触摸事件等。
 
     + Google地图上可以加入多个覆盖层，所有覆盖层按一定顺序加在地图图层之上，每个覆盖层均可以对用户的点击事件做出响应。
@@ -234,10 +234,37 @@
         + 重载draw()方法为指定位置添加注解/图像等；
         + 重载onTap()方法处理用户的点击操作。
         + 在draw（）方法中添加注解/图像，需要使用“画布”（Canvas）来实现绘制图形或文字，绘制的位置是屏幕坐标，这就需要将地图上的物理坐标（经纬度表示的）与屏幕坐标进行转换。
+1. **Projection 类的作用是什么？**
+    + 提供了物理坐标和屏幕坐标的转换功能，可在经度和纬度表示的GeoPoint点和屏幕上Point点进行转换：
+        + toPixels()方法将物理坐标转换为屏幕坐标
+        + fromPixels()方法将屏幕坐标转换为物理坐标
+    + 每个覆盖层都是占满屏幕，覆盖层的注解也是层层“覆盖”，对于onTap（）方法，如果覆盖层对应方法返回True，则在它之下的覆盖层都不会响应点击事件，如果该方法返回false，则该点击事件会继续传递。
 
-1. Projection 类的作用是什么？
-1. 自定义View的定义/调用步骤。
-1. Android 2D绘图相关的对象有哪些？
+1. **自定义View的定义/调用步骤。**
+    1. 首先，在values文件夹下定义一个myattr.xml的文件，根据实际需要在其中描述自定义的view控件的属性及其类型。
+
+    1. 接着，定义一个继承自View的子类，并根据实际需要实现View的一些方法。
+    1. 需要注意的是，如果要在布局文件中使用自定义的View，构造方法应该使用2个参数：(Context context，AttributeSet attrs)。
+    1. 一般情况下，我们需要在View的构造方法中通过context.obtainStyledAttributes()来获取一个属性值列表TypedArray对象，然后再从中获取各个属性值。
+    1. 在onDraw()中画图。
+    1. 然后，在布局文件中添加新定义的View。
+    1. 注意要在布局文件的前面添加命名空间，例如`xmlns:myapp=“http://schemas.android.com/apk/res/包名”` ，这样以后就可以在布局文件中通过myapp:属性名  来设置新定义的View的各项属性值了。
+    1.最后，在Activity中像系统中的View一样使用我们自定义的View了。
+    + > 示例代码：code -> MyViewAndDrawDemo -> MyViewDemo
+    > + 在Android中，可以自定义View（控件扩展）---任何一个View类都只需**重写onDraw()方法**就可以**实现自定义界面**显示，自定义的视图可以是复杂的3D实现，也可以是非常简单的文本形式等。
+    > + View类是Android的一个超类，这个类几乎包含了所有的屏幕控件。
+    > + 每一个View都有一个用于绘图的画布，这个画布可以进行任意扩展
+    > + 使用onDraw绘图：更新View需要使用invalidate方法。需要注意的是，invalidate 不能直接在除UI线程之外的线程中调用。
+    > + 如果需要View接受用户的输入，一般需要重载onKeyUp、onKeyDown、onTouchEvent等方法。
+
+1. **Android 2D绘图相关的对象有哪些？**
+    + Canvas类
+        > + Canvas意为“帆布”，这里我们可以理解为绘图所用的画布。使用Canvas类提供的各种方法可以在画布上绘制线条、矩形、圆以及其他可绘制图形。
+        > + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
+        > + 引用关系：Activity    -> View -> Cavas
+        > + 通过重写View.onDraw()方法，可以在指定的画布上绘图。onDraw()方法唯一的参数就是指定在哪个Canvas实例上绘图。
+
+    + Path类
 1. Android动画的分类/实现原理及作用对象。
 1. Android补间动画的基本类型有哪些？
 1. 简述Android动画中的坐标表示方法。
