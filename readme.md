@@ -49,7 +49,14 @@
         > 3. 在handleMessage（）函数中根据不同的数据形式实现不同的方法。
 
 1. **绑定方式启动服务的特点与ServiceConnection的作用。**
-    + 引用自他人资料
+    + ServiceConnection的作用
+        + ServiceConnnection对象, ServiceConnection类具有以下回调方法:
+            + 当绑定成功后，系统将调用ServiceConnnection的onServiceConnected()方法
+            + 而当绑定意外断开后，系统将调用ServiceConnnection中的onServiceDisconnected()方法
+                + 由上可知，以绑定方式使用Service，调用者需要声明一个ServiceConnnection，并重载内部的onServiceConnected()方法和onServiceDisconnected方法
+        + 绑定Service后不能立即使用onServiceConnected()方法中返回的Service对象，因为此时该回调方法还没有执行完。
+
+    + 绑定方式启动服务的特点，引用自他人资料
         > + 特点：绑定方式使用service，能够获取到service对象，不仅能正常启动service,而且能调用正在运行的service对象的公有方法和属性。
         > + 为了使service支持绑定方式，需要在service类中重载onBind()方法，并在onBind()方法中返回service对象。
         > <pre>
@@ -67,10 +74,8 @@
         >   }
         >}
         > /*当service被绑定时，系统会调用onBind()函数,通过onBind()函数的返回值(mBinder)，将Service对象返回给调用者*/</pre>
-        > + ServiceConnection的作用
-            > + ![avatar](http://www.qtu404.com/imageLib/cloudEase/twitter/asdasd.png)
 1. **Handler如何实现与指定线程的绑定？**
-    + 引用自别人的资料
+    + 引用自他人的资料
         > + 后台线程要想对某个目标线程发送消息，就必须能够获取目标线程的Handler对象，然后通过引用该Handler对象发送消息sendMessage(Message)。
         > + 接收消息的目标线程要创建Handler对象，需要先继承Handler类，然后实现该类的 handleMessage(Message)方法，用来处理收到的Message的内容
 
