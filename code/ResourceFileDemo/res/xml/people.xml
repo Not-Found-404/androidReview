@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<people>
+	<person	name="张三"	age="21"	height="1.80"/>
+	<person	name="李四"	age="22"	height="1.75"/>
+	<person	name="王五"	age="20"	height="1.78"/>
+</people>

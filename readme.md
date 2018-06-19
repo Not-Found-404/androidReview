@@ -35,7 +35,7 @@
         + 根据**使用范围**分为**本地服务**和**远程服务**
             + 本地服务用于应用程序内部
             + 远程服务用于安卓系统内部之间的应用程序
-
+    + > 示例代码: code -> ServiceDemoFirst
 1. **简述Android系统中利用HandlerThread的实现界面更新的步骤。**
     + 在单线程模型下，进行多线程程序设计时，Android可以通过Message Queue并结合Handler和Looper在线程间进行信息交换。
 
@@ -47,6 +47,7 @@
     > 1. 定义Handler对象并初始化，重写handleMessage（）函数
     > 2. 定义Thread线程对象，通常写成一个类形式（如class ThreadTest implements Runnable），在run()方法中操作数据，并把数据handler.sendMessage（）方法传输     到handler对象中，并开启线程。（注意：该步骤不一定用Thread实现，也可以利用TimeTask实现，具体的操作同样放在run()方法中）
     > 3. 在handleMessage（）函数中根据不同的数据形式实现不同的方法。
+    + > 示例代码：code -> 多线程设计代码 -> ThreadDemoClassical
 
 1. **绑定方式启动服务的特点与ServiceConnection的作用。**
     + ServiceConnection的作用
@@ -104,18 +105,19 @@
         + 使用File类的对象来调用前面文件操作方法
         + 读写文件前，创建FileOutputStream或者FileInputStreaml类的对象时关联要读取/写的file类对象。
         + 写文件完成后一定要调用flush()和close()。
-    + > 參考代码: ExternalFileDemo
+    + > 示例代码: code -> ExternalFileDemo
 
 1. **读取资源中的原始格式文件的步骤。**
     1. 首先需要调用getResources()函数获得资源对象
+
     1. 然后通过调用资源对象的openRawResource()函数，以二进制流（InputStream  --  FileInputStream的父类）的形式打开指定的原始格式文件:
             + 通过流对象读取文件;
             + 读取文件结束后，调用close()函数关闭文件流.
     1. 将从文件读出来的数据转换为String输出时，应格外注意文件的编码问题，一定要使用与原始格式文件属性中相同的编码(简体中文--GBK)。
-    + tips
+    + > 示例代码： code -> ResourceFileDemo -> ResourceFileDemo
+    + 备注
         + 原始格式文件可以是任何格式的文件，例如视频格式文件、音频格式文件、图像文件和数据文件等等，在应用程序编译和打包时，/res/raw目录下的所有文件都会保留原有格式不变。
-        + /res/xml目录下的XML文件，一般用来保存格式化的数据，在应用程序编译和打包时会将XML文件转换为高效的二进制格式，应用程序运行时会以特殊的方式进行访问。
-
+        + /res/xml目录下的XML文件，一般用来保存格式化的数据，在应用程序编译和打包时会将XML文件转换为高效的二进制格式，应用程序运行时会以特殊的方式进行访问。  
 1. **SQLite数据库的特点**
     + SQLite数据库特点（1）
         + SQLite，是一款轻型的数据库;
@@ -146,6 +148,18 @@
 
         + 一般情况下getReadableDatabase()与getWritableDatabase()返回的都是可读写的数据库对象，只有在数据库仅开放只读权限或磁盘已满时getReadableDatabase()方法才会返回一个只读的数据库对象。
         + onUpgrade()方法在数据库的版本发生变化时会被调用，数据库的版本是由程序员控制的，假设数据库现在的版本是1，由于业务的需要，修改了数据库表的结构，这时候就需要升级软件，升级软件时希望更新用户手机里的数据库表结构，为了实现这一目的，可以把新的数据库版本设置为2，并且在onUpgrade()方法里面实现表结构的更新。当系统在构造SQLiteOpenHelper类的对象时，如果发现版本号不一样（比较构造函数的参数中的版本和数据库文件版本），就会自动调用onUpgrade函数，在这里对数据库进行升级----改现有表为临时表，创建新表，复制/修改数据，删除临时表（注意执行效率问题）。
+    + 引用自他人的资料
+    > + 构造方法: 
+    >   + public ClassName(Context context, String name, CursorFactory factory, int version) 
+    >       + 参数1:上下文对象(MainActivity.this)、
+    >       + 参数2:数据库的名称、
+    >       + 数3:创建Cursor的工厂类,参数为了可以自定义Cursor创建(ps:一般为null)、
+    >       + 参数4:数据库的版本
+    >   + 两个回调函数:
+    >       + onCreate(SQLiteDatabase db)该方法是当没有数据库存在才会执行
+    >       + onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)该方法是数据库版本存更新才会执行
+
+    + > 示例代码：code -> SQLite-1 -> SQLiteDemoSecond
     + 额外知识点(**可选**)：SQLiteDataBase对象
         + 使用专用方法（SQLiteDatabase对象的insert、delete、update和query方法）操作数据库更加简洁、易用，而且不需要了解太多的SQL语法—专为不太熟悉SQL语言的程序员准备。专用方法需要使用ContentValues对象。ContentValues对象是一个数据承载容器，类似于MAP，它提供了存取数据对应的put(String key, xxxx value)和getAsxxxx(String key)方法，key为字段名称，value为字段值，xxxx指的是各种常用的数据类型， 如：String、Integer等
 
@@ -167,28 +181,37 @@
             + delete()方法的返回值是删除的行数。
             + whereClause是更新条件，可以使用占位符，占位符与whereArgs数组中的字符串一一对应。
             + 如果后2个参数为null，则删除所有数据。
-        + > 示例代码:SQLiteDemoSecond
 1. **Android系统中SQLite事务及其使用方法。**
-    + 事务定义了一组SQL命令的边界，这组命令或者作为一个整体被全部执行，或者都不执行。例如：转帐操作。
-    + 在Android平台上，数据库操作被意外中止的情况会频繁出现:  Android系统会杀死apps/threads/activities 中断数据库的使用，电池电量会耗尽或被移除等，所以，使用数据库事务至关重要。
-    + 使用SQLiteDatabase的beginTransaction()方法可以开启一个事务，程序执行到endTransaction() 方法时会检查事务的标志是否为成功，如果为成功则提交事务，否则回滚事务。
-    + 事务成功设置: 当应用需要提交事务，必须在程序执行到endTransaction()方法之前使用setTransactionSuccessful() 方法设置事务的标志为成功；如果不调用该方法，默认会回滚事务。示例: SQLiteDemoThird
-
+    + 概念
+        + 事务定义了一组SQL命令的边界，这组命令或者作为一个整体被全部执行，或者都不执行。例如：转帐操作。
+        + 在Android平台上，数据库操作被意外中止的情况会频繁出现:  Android系统会杀死apps/threads/activities 中断数据库的使用，电池电量会耗尽或被移除等，所以，使用数据库事务至关重要。
+    + 使用方法
+        + 使用SQLiteDatabase的beginTransaction()方法可以开启一个事务，程序执行到endTransaction() 方法时会检查事务的标志是否为成功，如果为成功则提交事务，否则回滚事务。
+        + 事务成功设置: 当应用需要提交事务，必须在程序执行到endTransaction()方法之前使用setTransactionSuccessful() 方法设置事务的标志为成功；如果不调用该方法，默认会回滚事务。示例: SQLiteDemoThird
+    + > 示例代码：code -> SQLite-1 -> SQLiteDemoThird
 1. **ContentProvider的概念及作用。**
-    + ContentProvider（数据提供者）是在应用程序间共享数据的一种接口机制。
-    + ContentProvider提供了高级的数据共享方法，应用程序可以指定需要共享的数据，而其他应用程序则可以在不知数据来源、路径的情况下，对共享数据进行查询、添加、删除和更新（CRUD）等完全一致的操作。
-    + 许多Android系统的内置数据也通过ContentProvider提供给用户使用，例如通讯录、音视频文件和图像文件等。
-    + 程序开发人员使用ContentResolver对象与ContentProvider进行交互，而ContentResolver则通过URI确定需要访问的ContentProvider的数据集（对应数据库、文件或网络等中的数据）。
-    + 在发起一个请求的过程中，Android首先根据URI确定处理这个查询的ContentProvider，然后初始化ContentProvider所有需要的资源，这个初始化的工作是Android系统完成的，无需程序开发人员参与。
-    + 一般情况下针对特定的数据只有一个ContentProvider对象，但却可以同时与多个需要使用该数据的ContentResolver进行交互，从这个角度讲：
-    + ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
-
+    + 概念
+        + ContentProvider（数据提供者）是在应用程序间共享数据的一种接口机制。
+    + 作用
+        + ContentProvider提供了高级的数据共享方法，应用程序可以指定需要共享的数据，而其他应用程序则可以在不知数据来源、路径的情况下，对共享数据进行查询、添加、删除和更新（CRUD）等完全一致的操作。
+    + 备注:
+        + 许多Android系统的内置数据也通过ContentProvider提供给用户使用，例如通讯录、音视频文件和图像文件等。
+        + 程序开发人员使用ContentResolver对象与ContentProvider进行交互，而ContentResolver则通过URI确定需要访问的ContentProvider的数据集（对应数据库、文件或网络等中的数据）。
+        + 在发起一个请求的过程中，Android首先根据URI确定处理这个查询的ContentProvider，然后初始化ContentProvider所有需要的资源，这个初始化的工作是Android系统完成的，无需程序开发人员参与。
+        + 一般情况下针对特定的数据只有一个ContentProvider对象，但却可以同时与多个需要使用该数据的ContentResolver进行交互，从这个角度讲：
+        + ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
 1. **URI的构成及作用**
     + URI是通用资源标志符（Uniform Resource Identifier），用来定位任何远程或本地的可用资源。
+
     + 一个Uri由以下几部分组成：
         + scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content://
         + 主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它，一般用包名+ContentProvider的类名来表示
         + 路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，具体示例如下：
+    + 引用自他人的资料
+    >    + URI是通用资源标志符（Uniform Resource Identifier），用来定位任何远程或本地的可用资源。
+    >    + ContentProvider使用的URI代表了要操作的数据，主要包含两部分信息：
+    >        + 需要操作的ContentProvider (Android用于选择组件)
+    >        + 对ContentProvider中的什么数据进行操作(具体的数据)
 
 1. **创建ContentProvider的步骤。**
     + 程序开发人员通过继承ContentProvider类可以创建一个新的数据提供者，过程可以分为三步：
@@ -203,7 +226,7 @@
 
         1. 在Manifest文件中注册ContentProvider
     + 为了写代码方便，一般需要定义一个常量构成的类，专门用于存放URI、MIME类型、数据集（表）的构成字段名称等。
-    + > 示例代码：ContentProviderDatabaseDemo
+    + > 示例代码：code -> TransactionAndContentProvider -> ContentProviderDatabaseDemo
 1. **什么是位置服务，相关的类有哪些？**
     + 位置服务（Location-Based Services，LBS），又称定位服务或基于位置的服务，融合了GPS定位、移动通信、导航等多种技术，提供了与空间位置相关的综合应用服务
 
@@ -213,6 +236,7 @@
     + 通过设置监听器，来监听位置变化。可以根据位置的距离变化(关键设置)和时间间隔设定产生位置改变事件的条件，这样可以避免因微小的距离变化而产生大量的位置改变事件。
 
     + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()：
+
     + LocationManager中设定监听位置变化的代码如下：
         + locationManager.requestLocationUpdates(provider, 2000, 10, locationListener);
             + 第1个参数是定位的方法，GPS定位或网络定位(字符串)
@@ -232,6 +256,7 @@
          /*在提供定位功能的硬件的状态改变时被调用，如从不可获取位置信息状态到可以获取位置信息的状态，反之亦然*/
         }
     };</pre>
+    + > 示例代码：code -> LocationServiceDemo
 1. **如何实现敏感区域设置？**
     + 当用户的手机靠近事先设定的固定点时,系统可以检测到,并触发相应的处理。
     + 具体步骤
@@ -275,16 +300,19 @@
     + 每个覆盖层都是占满屏幕，覆盖层的注解也是层层“覆盖”，对于onTap（）方法，如果覆盖层对应方法返回True，则在它之下的覆盖层都不会响应点击事件，如果该方法返回false，则该点击事件会继续传递。
 
 1. **自定义View的定义/调用步骤。**
-    1. 首先，在values文件夹下定义一个myattr.xml的文件，根据实际需要在其中描述自定义的view控件的属性及其类型。
+    + 定义：
+        + 任何一个View类都只需重写onDraw()方法就可以实现自定义界面显示，自定义的视图可以是复杂的3D实现，也可以是非常简单的文本形式等。
+    + 步骤
+        1. 首先，在values文件夹下定义一个myattr.xml的文件，根据实际需要在其中描述自定义的view控件的属性及其类型。
 
-    1. 接着，定义一个继承自View的子类，并根据实际需要实现View的一些方法。
-    1. 需要注意的是，如果要在布局文件中使用自定义的View，构造方法应该使用2个参数：(Context context，AttributeSet attrs)。
-    1. 一般情况下，我们需要在View的构造方法中通过context.obtainStyledAttributes()来获取一个属性值列表TypedArray对象，然后再从中获取各个属性值。
-    1. 在onDraw()中画图。
-    1. 然后，在布局文件中添加新定义的View。
-    1. 注意要在布局文件的前面添加命名空间，例如`xmlns:myapp=“http://schemas.android.com/apk/res/包名”` ，这样以后就可以在布局文件中通过myapp:属性名  来设置新定义的View的各项属性值了。
-    1.最后，在Activity中像系统中的View一样使用我们自定义的View了。
-    + tips
+        1. 接着，定义一个继承自View的子类，并根据实际需要实现View的一些方法。
+        1. 需要注意的是，如果要在布局文件中使用自定义的View，构造方法应该使用2个参数：(Context context，AttributeSet attrs)。
+        1. 一般情况下，我们需要在View的构造方法中通过context.obtainStyledAttributes()来获取一个属性值列表TypedArray对象，然后再从中获取各个属性值。
+        1. 在onDraw()中画图。
+        1. 然后，在布局文件中添加新定义的View。
+        1. 注意要在布局文件的前面添加命名空间，例如`xmlns:myapp=“http://schemas.android.com/apk/res/包名”` ，这样以后就可以在布局文件中通过myapp:属性名  来设置新定义的View的各项属性值了。
+        1.最后，在Activity中像系统中的View一样使用我们自定义的View了。
+    + 备注
         + 在Android中，可以自定义View（控件扩展）---任何一个View类都只需**重写onDraw()方法**就可以**实现自定义界面**显示，自定义的视图可以是复杂的3D实现，也可以是非常简单的文本形式等。
         + View类是Android的一个超类，这个类几乎包含了所有的屏幕控件。
         + 每一个View都有一个用于绘图的画布，这个画布可以进行任意扩展
@@ -292,6 +320,8 @@
         + 如果需要View接受用户的输入，一般需要重载onKeyUp、onKeyDown、onTouchEvent等方法。
     + > 示例代码：code -> MyViewAndDrawDemo -> MyViewDemo
 1. **Android 2D绘图相关的对象有哪些？**
+    + Activity对象 和 View对象
+        + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
     + Canvas类
         + Canvas意为“帆布”，这里我们可以理解为绘图所用的画布。使用Canvas类提供的各种方法可以在画布上绘制线条、矩形、圆以及其他可绘制图形。
         + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
