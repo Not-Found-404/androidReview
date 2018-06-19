@@ -107,14 +107,14 @@
         > 參考代码: ExternalFileDemo
 
 1. **读取资源中的原始格式文件的步骤。**
-    + 原始格式文件可以是任何格式的文件，例如视频格式文件、音频格式文件、图像文件和数据文件等等，在应用程序编译和打包时，/res/raw目录下的所有文件都会保留原有格式不变。
-    + /res/xml目录下的XML文件，一般用来保存格式化的数据，在应用程序编译和打包时会将XML文件转换为高效的二进制格式，应用程序运行时会以特殊的方式进行访问。
-    + 读取原始格式文件的步骤
-        1. 首先需要调用getResources()函数获得资源对象
-        1. 然后通过调用资源对象的openRawResource()函数，以二进制流（InputStream  --  FileInputStream的父类）的形式打开指定的原始格式文件:
+    1. 首先需要调用getResources()函数获得资源对象
+    1. 然后通过调用资源对象的openRawResource()函数，以二进制流（InputStream  --  FileInputStream的父类）的形式打开指定的原始格式文件:
             + 通过流对象读取文件;
             + 读取文件结束后，调用close()函数关闭文件流.
-        1. 将从文件读出来的数据转换为String输出时，应格外注意文件的编码问题，一定要使用与原始格式文件属性中相同的编码(简体中文--GBK)。
+    1. 将从文件读出来的数据转换为String输出时，应格外注意文件的编码问题，一定要使用与原始格式文件属性中相同的编码(简体中文--GBK)。
+    + tips
+        + 原始格式文件可以是任何格式的文件，例如视频格式文件、音频格式文件、图像文件和数据文件等等，在应用程序编译和打包时，/res/raw目录下的所有文件都会保留原有格式不变。
+        + /res/xml目录下的XML文件，一般用来保存格式化的数据，在应用程序编译和打包时会将XML文件转换为高效的二进制格式，应用程序运行时会以特殊的方式进行访问。
 
 1. **SQLite数据库的特点**
     + SQLite数据库特点（1）
@@ -146,7 +146,7 @@
 
         + 一般情况下getReadableDatabase()与getWritableDatabase()返回的都是可读写的数据库对象，只有在数据库仅开放只读权限或磁盘已满时getReadableDatabase()方法才会返回一个只读的数据库对象。
         + onUpgrade()方法在数据库的版本发生变化时会被调用，数据库的版本是由程序员控制的，假设数据库现在的版本是1，由于业务的需要，修改了数据库表的结构，这时候就需要升级软件，升级软件时希望更新用户手机里的数据库表结构，为了实现这一目的，可以把新的数据库版本设置为2，并且在onUpgrade()方法里面实现表结构的更新。当系统在构造SQLiteOpenHelper类的对象时，如果发现版本号不一样（比较构造函数的参数中的版本和数据库文件版本），就会自动调用onUpgrade函数，在这里对数据库进行升级----改现有表为临时表，创建新表，复制/修改数据，删除临时表（注意执行效率问题）。
-    + SQLiteDataBase对象
+    + 额外知识点(**可选**)：SQLiteDataBase对象
         + 使用专用方法（SQLiteDatabase对象的insert、delete、update和query方法）操作数据库更加简洁、易用，而且不需要了解太多的SQL语法—专为不太熟悉SQL语言的程序员准备。专用方法需要使用ContentValues对象。ContentValues对象是一个数据承载容器，类似于MAP，它提供了存取数据对应的put(String key, xxxx value)和getAsxxxx(String key)方法，key为字段名称，value为字段值，xxxx指的是各种常用的数据类型， 如：String、Integer等
 
         + insert方法（long insert (String table, String nullColumnHack, ContentValues values) )
@@ -175,14 +175,13 @@
     + 事务成功设置: 当应用需要提交事务，必须在程序执行到endTransaction()方法之前使用setTransactionSuccessful() 方法设置事务的标志为成功；如果不调用该方法，默认会回滚事务。示例: SQLiteDemoThird
 
 1. **ContentProvider的概念及作用。**
-    + ContentProvider概念
-        + ContentProvider（数据提供者）是在应用程序间共享数据的一种接口机制。
-        + ContentProvider提供了高级的数据共享方法，应用程序可以指定需要共享的数据，而其他应用程序则可以在不知数据来源、路径的情况下，对共享数据进行查询、添加、删除和更新（CRUD）等完全一致的操作。
-        + 许多Android系统的内置数据也通过ContentProvider提供给用户使用，例如通讯录、音视频文件和图像文件等。
-        + 程序开发人员使用ContentResolver对象与ContentProvider进行交互，而ContentResolver则通过URI确定需要访问的ContentProvider的数据集（对应数据库、文件或网络等中的数据）。
-        + 在发起一个请求的过程中，Android首先根据URI确定处理这个查询的ContentProvider，然后初始化ContentProvider所有需要的资源，这个初始化的工作是Android系统完成的，无需程序开发人员参与。
-        + 一般情况下针对特定的数据只有一个ContentProvider对象，但却可以同时与多个需要使用该数据的ContentResolver进行交互，从这个角度讲：
-            + ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
+    + ContentProvider（数据提供者）是在应用程序间共享数据的一种接口机制。
+    + ContentProvider提供了高级的数据共享方法，应用程序可以指定需要共享的数据，而其他应用程序则可以在不知数据来源、路径的情况下，对共享数据进行查询、添加、删除和更新（CRUD）等完全一致的操作。
+    + 许多Android系统的内置数据也通过ContentProvider提供给用户使用，例如通讯录、音视频文件和图像文件等。
+    + 程序开发人员使用ContentResolver对象与ContentProvider进行交互，而ContentResolver则通过URI确定需要访问的ContentProvider的数据集（对应数据库、文件或网络等中的数据）。
+    + 在发起一个请求的过程中，Android首先根据URI确定处理这个查询的ContentProvider，然后初始化ContentProvider所有需要的资源，这个初始化的工作是Android系统完成的，无需程序开发人员参与。
+    + 一般情况下针对特定的数据只有一个ContentProvider对象，但却可以同时与多个需要使用该数据的ContentResolver进行交互，从这个角度讲：
+    + ContentProvider对象是服务对象，类似于“网站”的功能，而URI类似于“网址”，客户端使用的ContentResolver 对象则类似于“浏览器”
 
 1. **URI的构成及作用**
     + URI是通用资源标志符（Uniform Resource Identifier），用来定位任何远程或本地的可用资源。
@@ -360,7 +359,7 @@
     + 相对于父控件的坐标
         + 数值%p，如：60%p
         + 100%p表示从当前位置出发，到指定点正好一个父控件的宽度/高度
-    + 引用的别人的资料
+    + 引用自他人的资料
         > 4个动画
         > 1. AlphaAnimation
         > 2. ScaleAnimation
