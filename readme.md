@@ -1,7 +1,7 @@
 # 安卓复习
 
 1. **简述服务的特点及启动方式的分类。**
-    + ![avatar](http://www.qtu404.com//imageLib/cloudEase/twitter/DTNIzmdWsAcYTe7.jpg)
+
     + 特点
         + 没有用户界面，其他特性很像Activity
         + 比后台Activity优先级高，不会被轻易终止
@@ -263,10 +263,56 @@
         > + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
         > + 引用关系：Activity    -> View -> Cavas
         > + 通过重写View.onDraw()方法，可以在指定的画布上绘图。onDraw()方法唯一的参数就是指定在哪个Canvas实例上绘图。
+        + 画布Canvas(续)—主要方法
+            + drawRect   //画矩形
+            + drawCircle  //画圆
+            + drawLine   //画直线
+            + drawOval   //画椭圆
+            + drawText   //写文本
+            + drawPath  //画一组图形
+            + drawTextOnPath  //在Path上写文本
+            + drawBitmap  //画图片（使用Matrix放缩）
+            + setBackgroundColor  //设置底色
+    + Paint类
+        + Paint类包含画笔的样式、颜色以及绘制图形（包括文本）所需的其他信息。
+        主要方法:
+            + setStyle()  //设置样式， Style.FILL或Style.STROKE 
+            + setStrokeWidth(float)  //设置画笔的宽度
+            + setColor()   //设置颜色
+            + setARGB(a,r,b,g)  //设置Alpha，Red，Blue，Green值
+            + setAlpha()   //设置Alpha值，就是透明值
+            + setTextSize(float)  //设置字体大小
 
     + Path类
-1. Android动画的分类/实现原理及作用对象。
+        + Path类包含一组矢量绘图命令，可以绘制如线条、矩形、曲线等等。
+        + 常用方法：
+            + moveTo(int,int)  //移动到新的绘图位置
+            + lineTo(int,int)   //添加线段
+            + addCircle()  //添加圆
+            + addOval()  //添加椭圆
+            + addRect()  //添加矩形
+            + reset()     //清除所有图形
+        + 使用步骤：
+            1. 建立Path对象
+            1. 准备画笔对象
+            1. 设置Path对象的内容---添加图形
+            在onDraw()中用drawPath()方法绘制
+    + > 示例代码: code -> MyViewAndDrawDemo -> DrawDemo
+1. **Android动画的分类/实现原理及作用对象。**
+    + 分类/原理：android平台提供了两种动画
+        + Tween动画：设置起始和终止2个状态对象的值，通过对场景里的对象不断进行图像变换(平移，缩放，旋转，改变透明度) 来产生动画效果；
+        + Frame 动画：顺序播放事先做好的图像(Drawable序列)，原理和电影类似。
+
+    + 作用对象：动画可用于一个View，也可用于一个Activity
+
 1. Android补间动画的基本类型有哪些？
+  
+    |效果| XML| CODE |
+    | :- | :-: | :-: |
+    | 渐变透明度动画效果淡入淡出 | alpha | AlphaAnimation |
+    | 渐变尺寸缩放动画效果 | scale | ScaleAnimation |
+    | 画面转换位置移动动画效果| translate | TranslateAnimation |
+    |画面转移旋转动画效果|rotate|RotateAnimation|
 1. 简述Android动画中的坐标表示方法。
 1. Android中实现Tween动画的方式及步骤。
 1. Frame动画的具体实现步骤。
