@@ -8,31 +8,31 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 public class DBAdapter {
-	//Êı¾İ¿â»ù±¾ĞÅÏ¢
-	private static final String DB_NAME="people.db";   //Êı¾İ¿âÃû
-	private static final String DB_TABLE="info";  //±íÃû
-	private static final int   DB_VERSION=1;	  //Êı¾İ¿â°æ±¾
-	//×Ö¶ÎÃû³Æ
+	//æ•°æ®åº“åŸºæœ¬ä¿¡æ¯
+	private static final String DB_NAME="people.db";   //æ•°æ®åº“å
+	private static final String DB_TABLE="info";  //è¡¨å
+	private static final int   DB_VERSION=1;	  //æ•°æ®åº“ç‰ˆæœ¬
+	//å­—æ®µåç§°
 	public static  final  String KEY_ID="id";   
 	public static  final  String KEY_NAME="name";
 	public static  final  String KEY_AGE="age";
 	public static  final  String KEY_HEIGHT="height";
 	
-	private SQLiteDatabase db=null;  //Êı¾İ¿â¶ÔÏó
-	private Context context; //¼Ç×¡ÓÉ¹¹Ôìº¯Êı´«ÈëµÄÉÏÏÂÎÄ¶ÔÏó
+	private SQLiteDatabase db=null;  //æ•°æ®åº“å¯¹è±¡
+	private Context context; //è®°ä½ç”±æ„é€ å‡½æ•°ä¼ å…¥çš„ä¸Šä¸‹æ–‡å¯¹è±¡
 	
-	//Êı¾İ¿â¸¨Öú²Ù×÷¶ÔÏó
+	//æ•°æ®åº“è¾…åŠ©æ“ä½œå¯¹è±¡
 	private MyDBOpenHelper helper;
 	
 	public DBAdapter(Context context){
-		this.context=context;  //¼Ç×¡ÓÉ¹¹Ôìº¯Êı´«ÈëµÄÉÏÏÂÎÄ¶ÔÏó
-		helper=new MyDBOpenHelper(context, DB_NAME, null, DB_VERSION); //ÈôÔÚ´Ë´¦¸ü¸ÄÊı¾İ¿â°æ±¾,Ôò»á´¥·¢Éı¼¶¶¯×÷
+		this.context=context;  //è®°ä½ç”±æ„é€ å‡½æ•°ä¼ å…¥çš„ä¸Šä¸‹æ–‡å¯¹è±¡
+		helper=new MyDBOpenHelper(context, DB_NAME, null, DB_VERSION); //è‹¥åœ¨æ­¤å¤„æ›´æ”¹æ•°æ®åº“ç‰ˆæœ¬,åˆ™ä¼šè§¦å‘å‡çº§åŠ¨ä½œ
 	}
 	
-	//´´½¨/´ò¿ªÊı¾İ¿â
+	//åˆ›å»º/æ‰“å¼€æ•°æ®åº“
 	public boolean createDB(){
 		try{
-			//´ò¿ª/´´½¨Ö¸¶¨ÎÄ¼ş¼ĞÏÂµÄÊı¾İ¿â,ĞèÒªÏàÓ¦Â·¾¶µÄĞ´È¨ÏŞ
+			//æ‰“å¼€/åˆ›å»ºæŒ‡å®šæ–‡ä»¶å¤¹ä¸‹çš„æ•°æ®åº“,éœ€è¦ç›¸åº”è·¯å¾„çš„å†™æƒé™
 			db=helper.getWritableDatabase();
 		}catch(SQLiteException e){
 			return false;
@@ -40,16 +40,16 @@ public class DBAdapter {
 		return true;
 	}
 	
-	//´´½¨±í--´Ë´¦²»ĞèÒª×÷ÈÎºÎ´¦Àí, ÔÚ´´½¨Êı¾İ¿âÊ±±í»áËæÖ®´´½¨
+	//åˆ›å»ºè¡¨--æ­¤å¤„ä¸éœ€è¦ä½œä»»ä½•å¤„ç†, åœ¨åˆ›å»ºæ•°æ®åº“æ—¶è¡¨ä¼šéšä¹‹åˆ›å»º
 	public boolean createTable(){		
 		return true;
 	}
 	
-	//Ìí¼ÓĞÂÊı¾İ,²åÈë3Ìõ¼ÇÂ¼
+	//æ·»åŠ æ–°æ•°æ®,æ’å…¥3æ¡è®°å½•
 	public boolean insert(){
 		ContentValues cv=new ContentValues();
 		
-		//ÉèÖÃ²åÈëµÄ×Ö¶ÎÊıÖµ,¶ÔÓÚ×ÔÔöµÄ×Ö¶Î²»ĞèÒªÉèÖÃ
+		//è®¾ç½®æ’å…¥çš„å­—æ®µæ•°å€¼,å¯¹äºè‡ªå¢çš„å­—æ®µä¸éœ€è¦è®¾ç½®
 		cv.put(KEY_NAME, "Tom");
 		cv.put(KEY_AGE, 21);
 		cv.put(KEY_HEIGHT, 1.75);
@@ -71,41 +71,41 @@ public class DBAdapter {
 		return true;
 	}
 	
-	//²éÑ¯Êı¾İ
+	//æŸ¥è¯¢æ•°æ®
 	public String query(){
-		String rlt=""; //½á¹û×Ö·û´®
+		String rlt=""; //ç»“æœå­—ç¬¦ä¸²
 		
-		//²éÑ¯---¿ÉÒÔÊ¹ÓÃÕ¼Î»·û--SQLÖĞµÄ?¶ÔÓ¦ºóÃæ×Ö·û´®Êı×éÖĞµÄ×Ö·û´®,´Ë´¦²»ÓÃ,µÚ¶ş¸ö²ÎÊıÉèÖÃÎªnull
+		//æŸ¥è¯¢---å¯ä»¥ä½¿ç”¨å ä½ç¬¦--SQLä¸­çš„?å¯¹åº”åé¢å­—ç¬¦ä¸²æ•°ç»„ä¸­çš„å­—ç¬¦ä¸²,æ­¤å¤„ä¸ç”¨,ç¬¬äºŒä¸ªå‚æ•°è®¾ç½®ä¸ºnull
 		Cursor cursor=db.query(DB_TABLE,new String[]{KEY_ID,KEY_NAME,KEY_AGE,KEY_HEIGHT},
-				null,null,null,null,null); //Èç¹ûÒª²éÑ¯µÄ±í²»´æÔÚÔò»á²úÉúÒì³£
-		if (cursor.getCount()==0) //²éÑ¯½á¹ûÎª¿ÕÔò·µ»Ø
-			return "²éÑ¯½á¹ûÎª¿Õ!";
-		while (cursor.moveToNext()){ //Ñ­»·È¡³öÓÎ±êÖĞµÄ²éÑ¯½á¹û
-			//È¡³ö±¾ĞĞ¸÷ÁĞµÄÖµ
+				null,null,null,null,null); //å¦‚æœè¦æŸ¥è¯¢çš„è¡¨ä¸å­˜åœ¨åˆ™ä¼šäº§ç”Ÿå¼‚å¸¸
+		if (cursor.getCount()==0) //æŸ¥è¯¢ç»“æœä¸ºç©ºåˆ™è¿”å›
+			return "æŸ¥è¯¢ç»“æœä¸ºç©º!";
+		while (cursor.moveToNext()){ //å¾ªç¯å–å‡ºæ¸¸æ ‡ä¸­çš„æŸ¥è¯¢ç»“æœ
+			//å–å‡ºæœ¬è¡Œå„åˆ—çš„å€¼
 			int id=cursor.getInt(0);
 			String name=cursor.getString(1);
 			int age=cursor.getInt(2);
 			float height=cursor.getFloat(3);
-			//Ğ´µ½½á¹û×Ö·û´®ÖĞ
+			//å†™åˆ°ç»“æœå­—ç¬¦ä¸²ä¸­
 			rlt+=id+"\t"+name+"\t"+age+"\t"+height+"\n";
-		}; //¼ÌĞøÈ¡ÏÂÒ»ĞĞ
+		}; //ç»§ç»­å–ä¸‹ä¸€è¡Œ
 		
-		cursor.close(); //¹Ø±ÕÓÎ±ê
+		cursor.close(); //å…³é—­æ¸¸æ ‡
 		
 		return rlt;
 	}
 	
-	//ĞŞ¸Ä
+	//ä¿®æ”¹
 	public boolean update(){
 		ContentValues cv=new ContentValues();
-		cv.put(KEY_HEIGHT, 1.85); //Éè¶¨ÒªĞŞ¸ÄµÄÖµ
+		cv.put(KEY_HEIGHT, 1.85); //è®¾å®šè¦ä¿®æ”¹çš„å€¼
 		if (db.update(DB_TABLE, cv, KEY_NAME+"=?", new String[]{"Lily"})>0)
 			return true;
 		else
 			return false;
 	}
 	
-	//É¾³ı
+	//åˆ é™¤
 	public boolean delete(){
 		if (db.delete(DB_TABLE, KEY_HEIGHT+"<=?", new String[]{"1.85"})>0)
 			return true;
@@ -113,11 +113,11 @@ public class DBAdapter {
 			return false;
 	}
 	
-	//É¾³ı±í
+	//åˆ é™¤è¡¨
 	public boolean drop(){
 		String dropSQL="drop table ["+DB_TABLE+"] ;";
 		try{
-			db.execSQL(dropSQL); //Ö´ĞĞÉ¾³ı±íÓï¾ä
+			db.execSQL(dropSQL); //æ‰§è¡Œåˆ é™¤è¡¨è¯­å¥
 			}catch(SQLException e){
 				return false;
 			}
@@ -125,7 +125,7 @@ public class DBAdapter {
 		return true;
 	}
 	
-	//¹Ø±ÕÊı¾İ¿â¶ÔÏó
+	//å…³é—­æ•°æ®åº“å¯¹è±¡
 	public void close(){
 		if (db!=null){
 			db.close();

@@ -105,7 +105,7 @@
         + 使用File类的对象来调用前面文件操作方法
         + 读写文件前，创建FileOutputStream或者FileInputStreaml类的对象时关联要读取/写的file类对象。
         + 写文件完成后一定要调用flush()和close()。
-    + > 示例代码: code -> ExternalFileDemo
+    + > 示例代码: code -> FileCode-1 -> ExternalFileDemo
 
 1. **读取资源中的原始格式文件的步骤。**
     1. 首先需要调用getResources()函数获得资源对象
@@ -188,7 +188,7 @@
     + 使用方法
         + 使用SQLiteDatabase的beginTransaction()方法可以开启一个事务，程序执行到endTransaction() 方法时会检查事务的标志是否为成功，如果为成功则提交事务，否则回滚事务。
         + 事务成功设置: 当应用需要提交事务，必须在程序执行到endTransaction()方法之前使用setTransactionSuccessful() 方法设置事务的标志为成功；如果不调用该方法，默认会回滚事务。示例: SQLiteDemoThird
-    + > 示例代码：code -> SQLite-1 -> SQLiteDemoThird
+    + > 示例代码：code -> TransactionAndContentProvider -> SQLiteDemoThird
 1. **ContentProvider的概念及作用。**
     + 概念
         + ContentProvider（数据提供者）是在应用程序间共享数据的一种接口机制。

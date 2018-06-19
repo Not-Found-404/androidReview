@@ -204,6 +204,8 @@ public class ExternalFileDemo extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				
 				
 				byte[] buff; //缓冲区
 				try {

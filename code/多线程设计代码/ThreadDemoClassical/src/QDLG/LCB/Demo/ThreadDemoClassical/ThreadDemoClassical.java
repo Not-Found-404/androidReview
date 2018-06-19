@@ -13,28 +13,28 @@ import android.widget.Toast;
 
 public class ThreadDemoClassical extends Activity {
 	
-	//×Ô¶¨ÒåµÄ¹¤×÷Ïß³Ì¶ÔÏó
+	//è‡ªå®šä¹‰çš„å·¥ä½œçº¿ç¨‹å¯¹è±¡
 	MyThread myThread;
-	//×Ô¶¨ÒåµÄ¹¤×÷Ïß³ÌµÄHandler--Ã¿¸öHandler¶ÔÏó´¦Àí¸÷×Ô²»Í¬µÄÏûÏ¢
+	//è‡ªå®šä¹‰çš„å·¥ä½œçº¿ç¨‹çš„Handler--æ¯ä¸ªHandlerå¯¹è±¡å¤„ç†å„è‡ªä¸åŒçš„æ¶ˆæ¯
 	Handler mChildThreadHandler, testChildHandler;
 	
-	//UIÏß³Ì½ÓÊÕµÄÏûÏ¢ÀàĞÍ
+	//UIçº¿ç¨‹æ¥æ”¶çš„æ¶ˆæ¯ç±»å‹
 	private static final int UI_UPDATE_ID1=1;
 	private static final int UI_UPDATE_ID2=2;
-	//¹¤×÷Ïß³Ì½ÓÊÕµÄÏûÏ¢ÀàĞÍ
+	//å·¥ä½œçº¿ç¨‹æ¥æ”¶çš„æ¶ˆæ¯ç±»å‹
 	private static final int  SERVER_DATA1=1;
 	private static final int SERVER_DATA2=2;
 	
-	//½çÃæ¿Ø¼ş¶ÔÏó
+	//ç•Œé¢æ§ä»¶å¯¹è±¡
 	private EditText info;
 	
-	//UIÏß³ÌµÄHandler
+	//UIçº¿ç¨‹çš„Handler
 	Handler mainThreadHandler = new Handler() {
 	    public void handleMessage(Message msg) {
-	    	switch (msg.what){ //¸ù¾İÏûÏ¢ÀàĞÍ´¦Àí
+	    	switch (msg.what){ //æ ¹æ®æ¶ˆæ¯ç±»å‹å¤„ç†
 	    	case UI_UPDATE_ID1:
-	    		String data=msg.getData().getString("result");        //´ÓÏûÏ¢ÖĞ»ñÈ¡Êı¾İ
-	    		updateUI(data);     //ÔÚ´Ë·½·¨ÖĞ½øĞĞUI¸üĞÂ²Ù×÷,²ÎÊıÎªĞèÒª¸üĞÂµÄÊı¾İ
+	    		String data=msg.getData().getString("result");        //ä»æ¶ˆæ¯ä¸­è·å–æ•°æ®
+	    		updateUI(data);     //åœ¨æ­¤æ–¹æ³•ä¸­è¿›è¡ŒUIæ›´æ–°æ“ä½œ,å‚æ•°ä¸ºéœ€è¦æ›´æ–°çš„æ•°æ®
 	    		break;
 	    	case UI_UPDATE_ID2:
 	    		break;
@@ -48,102 +48,102 @@ public class ThreadDemoClassical extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        //»ñÈ¡½çÃæ¿Ø¼ş¶ÔÏó
+        //è·å–ç•Œé¢æ§ä»¶å¯¹è±¡
         info=(EditText)findViewById(R.id.info);
         Button start=(Button)findViewById(R.id.btnStart);
         Button request=(Button)findViewById(R.id.btnRequest);
         Button stop=(Button)findViewById(R.id.btnStop);
         
-        //¿ªÊ¼Ïß³Ì°´Å¥µÄ¼àÌıÆ÷
+        //å¼€å§‹çº¿ç¨‹æŒ‰é’®çš„ç›‘å¬å™¨
         start.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-			    //´´½¨Ïß³Ì--- µ«ÊÇÃ»ÓĞÆô¶¯
+			    //åˆ›å»ºçº¿ç¨‹--- ä½†æ˜¯æ²¡æœ‰å¯åŠ¨
 		        myThread=new MyThread();
-				//ÉèÖÃÏß³ÌµÄÊôĞÔ
-				myThread.setName("WorkerThread"); //Ïß³ÌÃû³Æ
-				myThread.setPriority(Thread.MIN_PRIORITY);  //¹¤×÷Ïß³ÌµÍÓÅÏÈ¼¶ÔËĞĞ
-				//Æô¶¯Ïß³Ì
+				//è®¾ç½®çº¿ç¨‹çš„å±æ€§
+				myThread.setName("WorkerThread"); //çº¿ç¨‹åç§°
+				myThread.setPriority(Thread.MIN_PRIORITY);  //å·¥ä½œçº¿ç¨‹ä½ä¼˜å…ˆçº§è¿è¡Œ
+				//å¯åŠ¨çº¿ç¨‹
 				myThread.start();
 				
-				Toast.makeText(ThreadDemoClassical.this, "Ïß³ÌÒÑ¾­Æô¶¯!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ThreadDemoClassical.this, "çº¿ç¨‹å·²ç»å¯åŠ¨!", Toast.LENGTH_SHORT).show();
 			}
 		});
         
-        //ÇëÇóÊı¾İ´¦Àí°´Å¥µÄ¼àÌıÆ÷
+        //è¯·æ±‚æ•°æ®å¤„ç†æŒ‰é’®çš„ç›‘å¬å™¨
         request.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				//Í¨¹ıÏò¹¤×÷Ïß³Ì·¢ËÍÏûÏ¢À´µ÷ÓÃ¹¤×÷Ïß³ÌÍê³ÉÊı¾İ´¦Àí--µÚÒ»¸öHandler
+				//é€šè¿‡å‘å·¥ä½œçº¿ç¨‹å‘é€æ¶ˆæ¯æ¥è°ƒç”¨å·¥ä½œçº¿ç¨‹å®Œæˆæ•°æ®å¤„ç†--ç¬¬ä¸€ä¸ªHandler
 		        Message msg = mChildThreadHandler.obtainMessage();
-		        msg.what=SERVER_DATA1; //ÏûÏ¢ÀàĞÍ
+		        msg.what=SERVER_DATA1; //æ¶ˆæ¯ç±»å‹
 	            Bundle b = new Bundle();
 	            b.putString("info", info.getText().toString() + "-1-");
-	            msg.setData(b);  //ÏûÏ¢ÖĞĞ¯´øÒª´¦ÀíµÄÊı¾İ
+	            msg.setData(b);  //æ¶ˆæ¯ä¸­æºå¸¦è¦å¤„ç†çš„æ•°æ®
 		        mChildThreadHandler.sendMessage(msg);
 		        
-		        //Í¨¹ıÏò¹¤×÷Ïß³Ì·¢ËÍÏûÏ¢À´µ÷ÓÃ¹¤×÷Ïß³ÌÍê³ÉÊı¾İ´¦Àí--µÚ¶ş¸öHandler
+		        //é€šè¿‡å‘å·¥ä½œçº¿ç¨‹å‘é€æ¶ˆæ¯æ¥è°ƒç”¨å·¥ä½œçº¿ç¨‹å®Œæˆæ•°æ®å¤„ç†--ç¬¬äºŒä¸ªHandler
 		        msg = testChildHandler.obtainMessage();
-		        msg.what=SERVER_DATA1; //ÏûÏ¢ÀàĞÍ
+		        msg.what=SERVER_DATA1; //æ¶ˆæ¯ç±»å‹
 	            Bundle b2 = new Bundle();
 	            b2.putString("info", info.getText().toString() + "-2-");
-	            msg.setData(b2);  //ÏûÏ¢ÖĞĞ¯´øÒª´¦ÀíµÄÊı¾İ
+	            msg.setData(b2);  //æ¶ˆæ¯ä¸­æºå¸¦è¦å¤„ç†çš„æ•°æ®
 		        testChildHandler.sendMessage(msg);
 			}
 		});
         
-        //Í£Ö¹Ïß³Ì°´Å¥µÄ¼àÌıÆ÷
+        //åœæ­¢çº¿ç¨‹æŒ‰é’®çš„ç›‘å¬å™¨
         stop.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				//Í£Ö¹ÏûÏ¢Ñ­»·, Ò²¾ÍÍ£Ö¹ÁËÏß³Ì
+				//åœæ­¢æ¶ˆæ¯å¾ªç¯, ä¹Ÿå°±åœæ­¢äº†çº¿ç¨‹
 				mChildThreadHandler.getLooper().quit();		
 			}
 		});
         
     }
     
-    //×Ô¶¨ÒåµÄÏß³ÌÀà
+    //è‡ªå®šä¹‰çš„çº¿ç¨‹ç±»
     private class MyThread extends Thread{
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			super.run();
 			
-			InitWorkThread(); //´Ëµ÷ÓÃ³õÊ¼»¯Ïß³Ì¹¤×÷»·¾³
+			InitWorkThread(); //æ­¤è°ƒç”¨åˆå§‹åŒ–çº¿ç¨‹å·¥ä½œç¯å¢ƒ
         	
-        	Looper.prepare(); //×¼±¸ÏûÏ¢Ñ­»·--´´½¨ÁËÒ»¸öLooper¶ÔÏó
+        	Looper.prepare(); //å‡†å¤‡æ¶ˆæ¯å¾ªç¯--åˆ›å»ºäº†ä¸€ä¸ªLooperå¯¹è±¡
         	
-        	//´Ë´¦´´½¨¹¤×÷Ïß³ÌµÄHandler£¬»á×Ô¶¯°ó¶¨ÉÏÃæ½¨Á¢µÄÏûÏ¢Ñ­»·
+        	//æ­¤å¤„åˆ›å»ºå·¥ä½œçº¿ç¨‹çš„Handlerï¼Œä¼šè‡ªåŠ¨ç»‘å®šä¸Šé¢å»ºç«‹çš„æ¶ˆæ¯å¾ªç¯
         	mChildThreadHandler=new Handler(){
 				@Override
 				public void handleMessage(Message msg) {
 					// TODO Auto-generated method stub
 					super.handleMessage(msg);
 					
-					//´æ·ÅÏß³ÌÊı¾İµÄ±äÁ¿
+					//å­˜æ”¾çº¿ç¨‹æ•°æ®çš„å˜é‡
 					String data;
 					
-					switch (msg.what){ //¸ù¾İÏûÏ¢ÀàĞÍ·Ö±ğ´¦Àí
+					switch (msg.what){ //æ ¹æ®æ¶ˆæ¯ç±»å‹åˆ†åˆ«å¤„ç†
 					case SERVER_DATA1:
-						data=msg.getData().getString("info"); //´ÓÏûÏ¢ÖĞ»ñÈ¡Êı¾İ
+						data=msg.getData().getString("info"); //ä»æ¶ˆæ¯ä¸­è·å–æ•°æ®
 					
 			            data=data+data;
 			            
-			            //Í¨¹ıÏûÏ¢ÏòUIÏß³Ì·µ»Ø½á¹û
+			            //é€šè¿‡æ¶ˆæ¯å‘UIçº¿ç¨‹è¿”å›ç»“æœ
 			            Message m = mainThreadHandler.obtainMessage();
-			            m.what=UI_UPDATE_ID1; //ÏûÏ¢ID
+			            m.what=UI_UPDATE_ID1; //æ¶ˆæ¯ID
 			            Bundle b = new Bundle();
 			            b.putString("result", data);  
-			            m.setData(b);    // ÏòÏûÏ¢ÖĞÌí¼Ó½á¹ûÊı¾İ
-			            mainThreadHandler.sendMessage(m);    // ÏòÖ÷Ïß³Ì·¢ËÍÏûÏ¢£¬¸üĞÂUI
+			            m.setData(b);    // å‘æ¶ˆæ¯ä¸­æ·»åŠ ç»“æœæ•°æ®
+			            mainThreadHandler.sendMessage(m);    // å‘ä¸»çº¿ç¨‹å‘é€æ¶ˆæ¯ï¼Œæ›´æ–°UI
 						break;
 					case SERVER_DATA2:
 						break;
@@ -151,53 +151,53 @@ public class ThreadDemoClassical extends Activity {
 				}        		
         	};
         	
-        	testChildHandler=new Handler(){//µ±Ç°×Ô¶¨ÒåÏß³ÌµÄµÚ¶ş¸öHandler
+        	testChildHandler=new Handler(){//å½“å‰è‡ªå®šä¹‰çº¿ç¨‹çš„ç¬¬äºŒä¸ªHandler
 				@Override
 				public void handleMessage(Message msg) {
 					// TODO Auto-generated method stub
 					super.handleMessage(msg);
 					
-					String data=msg.getData().getString("info"); //´ÓÏûÏ¢ÖĞ»ñÈ¡Êı¾İ
+					String data=msg.getData().getString("info"); //ä»æ¶ˆæ¯ä¸­è·å–æ•°æ®
 					data="test--"+data;
-		            doStuff();         // ¸Ã·½·¨ÖĞÖ´ĞĞºÄÊ±²Ù×÷,´¦ÀíUIÏß³Ì´«À´µÄÊı¾İ
+		            doStuff();         // è¯¥æ–¹æ³•ä¸­æ‰§è¡Œè€—æ—¶æ“ä½œ,å¤„ç†UIçº¿ç¨‹ä¼ æ¥çš„æ•°æ®
 		            
-					//Í¨¹ıÏûÏ¢ÏòUIÏß³Ì·µ»Ø½á¹û
+					//é€šè¿‡æ¶ˆæ¯å‘UIçº¿ç¨‹è¿”å›ç»“æœ
 		            Message m = mainThreadHandler.obtainMessage();
-		            m.what=UI_UPDATE_ID1; //ÏûÏ¢ID
+		            m.what=UI_UPDATE_ID1; //æ¶ˆæ¯ID
 		            Bundle b = new Bundle();
 		            b.putString("result", data);  
-		            m.setData(b);    // ÏòÏûÏ¢ÖĞÌí¼Ó½á¹ûÊı¾İ
-		            mainThreadHandler.sendMessage(m);    // ÏòÖ÷Ïß³Ì·¢ËÍÏûÏ¢£¬¸üĞÂUI
+		            m.setData(b);    // å‘æ¶ˆæ¯ä¸­æ·»åŠ ç»“æœæ•°æ®
+		            mainThreadHandler.sendMessage(m);    // å‘ä¸»çº¿ç¨‹å‘é€æ¶ˆæ¯ï¼Œæ›´æ–°UI
 				}        		
         	};
             
-        	//³õÊ¼»¯, ×¼±¸ÏûÏ¢Ñ­»·, ´´½¨Handler¶ÔÏóºó  -->  ½øÈë¹¤×÷Ïß³ÌµÄÏûÏ¢Ñ­»·
+        	//åˆå§‹åŒ–, å‡†å¤‡æ¶ˆæ¯å¾ªç¯, åˆ›å»ºHandlerå¯¹è±¡å  -->  è¿›å…¥å·¥ä½œçº¿ç¨‹çš„æ¶ˆæ¯å¾ªç¯
             Looper.loop();
 		}
     	
     }
     
-    //¹¤×÷Ïß³ÌÖĞµÄ³õÊ¼»¯²Ù×÷
+    //å·¥ä½œçº¿ç¨‹ä¸­çš„åˆå§‹åŒ–æ“ä½œ
     private void InitWorkThread(){  
     	try {
-			Thread.sleep(100);  //ÑÓÊ±0.1Ãë£¬Ä£ÄâÏß³ÌÔËĞĞ»·¾³µÄ³õÊ¼»¯²Ù×÷
+			Thread.sleep(100);  //å»¶æ—¶0.1ç§’ï¼Œæ¨¡æ‹Ÿçº¿ç¨‹è¿è¡Œç¯å¢ƒçš„åˆå§‹åŒ–æ“ä½œ
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
-    //ÔÚ¹¤×÷Ïß³ÌÖĞµÄÊı¾İ´¦Àí²Ù×÷
+    //åœ¨å·¥ä½œçº¿ç¨‹ä¸­çš„æ•°æ®å¤„ç†æ“ä½œ
     private void doStuff(){  
     	try {
-			Thread.sleep(3000); //ÑÓÊ±3Ãë, Ä£ÄâºÄÊ±²Ù×÷
+			Thread.sleep(3000); //å»¶æ—¶3ç§’, æ¨¡æ‹Ÿè€—æ—¶æ“ä½œ
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
-    //UIÏß³ÌÖĞ¸üĞÂ½çÃæ
+    //UIçº¿ç¨‹ä¸­æ›´æ–°ç•Œé¢
     private void updateUI(String data){    	
     	info.setText(data);
     	System.out.println(data);

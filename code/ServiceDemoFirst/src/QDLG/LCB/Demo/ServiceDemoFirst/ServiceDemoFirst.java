@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class ServiceDemoFirst extends Activity {
 	
-	//Æô¶¯ServiceÊ¹ÓÃµÄIntent¶ÔÏó
+	//ï¿½ï¿½ï¿½ï¿½ServiceÊ¹ï¿½Ãµï¿½Intentï¿½ï¿½ï¿½ï¿½
 	private  Intent intent;
 	
     /** Called when the activity is first created. */
@@ -18,14 +18,14 @@ public class ServiceDemoFirst extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        //»ñÈ¡°´Å¥¶ÔÏó
+        //ï¿½ï¿½È¡ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
         Button btnStartService=(Button)findViewById(R.id.startService);
         Button btnStopService=(Button)findViewById(R.id.stopService);
         
-        //½¨Á¢Intent¶ÔÏó£¬ÓÃÓÚÒþÊ½Æô¶¯Service
+        //ï¿½ï¿½ï¿½ï¿½Intentï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½Service
         intent=new Intent("QDLG.LCB.Demo.ServiceDemoFirst.RandomService");
         
-        //¿ªÆô·þÎñµÄ°´Å¥µÄ¼àÌýÆ÷
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä°ï¿½Å¥ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
         btnStartService.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -35,13 +35,13 @@ public class ServiceDemoFirst extends Activity {
 			}
 		});
         
-        //Í£Ö¹·þÎñµÄ¼àÌýÆ÷
+        //Í£Ö¹ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
         btnStopService.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				stopService(intent);
+				sopService(intent);t
 			}
 		});
         

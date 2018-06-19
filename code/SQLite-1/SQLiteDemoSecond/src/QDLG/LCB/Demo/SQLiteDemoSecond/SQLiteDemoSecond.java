@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SQLiteDemoSecond extends Activity {
-	//Êı¾İ¿âÊÊÅä¶ÔÏó,ÓÃÓÚ²Ù×÷Êı¾İ¿â
+	//æ•°æ®åº“é€‚é…å¯¹è±¡,ç”¨äºæ“ä½œæ•°æ®åº“
 	DBAdapter db=null;
 	
     /** Called when the activity is first created. */
@@ -18,43 +18,43 @@ public class SQLiteDemoSecond extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        //´´½¨Êı¾İ¿âÊÊÅä¶ÔÏó
+        //åˆ›å»ºæ•°æ®åº“é€‚é…å¯¹è±¡
         db=new DBAdapter(this);
         
-        //´´½¨Êı¾İ¿â
+        //åˆ›å»ºæ•°æ®åº“
         if (!db.createDB()){
-        	Toast.makeText(SQLiteDemoSecond.this, "´´½¨Êı¾İ¿âÊ§°Ü!", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(SQLiteDemoSecond.this, "åˆ›å»ºæ•°æ®åº“å¤±è´¥!", Toast.LENGTH_SHORT).show();
         	return;
         }
         
-        //ÏÔÊ¾ĞÅÏ¢µÄTextView
+        //æ˜¾ç¤ºä¿¡æ¯çš„TextView
         final TextView info=(TextView)findViewById(R.id.info);
         
-        //´´½¨±í
+        //åˆ›å»ºè¡¨
         ((Button)findViewById(R.id.create)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (db.createTable())
-					info.setText("³É¹¦´´½¨±í!");
+					info.setText("æˆåŠŸåˆ›å»ºè¡¨!");
 				else
-					info.setText("´´½¨±íÊ§°Ü!");
+					info.setText("åˆ›å»ºè¡¨å¤±è´¥!");
 			}
 		});
         
-        //Ìí¼ÓÊı¾İ
+        //æ·»åŠ æ•°æ®
         ((Button)findViewById(R.id.insert)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (db.insert())
-					info.setText("³É¹¦²åÈë3ÌõÊı¾İ!");
+					info.setText("æˆåŠŸæ’å…¥3æ¡æ•°æ®!");
 				else
-					info.setText("²åÈëÊı¾İÊ§°Ü!");
+					info.setText("æ’å…¥æ•°æ®å¤±è´¥!");
 			}
 		});
         
-        //²éÑ¯
+        //æŸ¥è¯¢
         ((Button)findViewById(R.id.query)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -63,45 +63,45 @@ public class SQLiteDemoSecond extends Activity {
 			}
 		});
         
-        //ĞŞ¸Ä
+        //ä¿®æ”¹
         ((Button)findViewById(R.id.update)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (db.update())
-					info.setText("³É¹¦ĞŞ¸ÄÊı¾İ!");
+					info.setText("æˆåŠŸä¿®æ”¹æ•°æ®!");
 				else
-					info.setText("ĞŞ¸ÄÊı¾İÊ§°Ü!");
+					info.setText("ä¿®æ”¹æ•°æ®å¤±è´¥!");
 			}
 		});
         
-        //É¾³ı
+        //åˆ é™¤
         ((Button)findViewById(R.id.delete)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (db.delete())
-					info.setText("³É¹¦É¾³ıÊı¾İ!");
+					info.setText("æˆåŠŸåˆ é™¤æ•°æ®!");
 				else
-					info.setText("É¾³ıÊı¾İÊ§°Ü!");
+					info.setText("åˆ é™¤æ•°æ®å¤±è´¥!");
 			}
 		});
         
-        //É¾³ı±í
+        //åˆ é™¤è¡¨
         ((Button)findViewById(R.id.drop)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (db.drop())
-					info.setText("³É¹¦É¾³ı±í!");
+					info.setText("æˆåŠŸåˆ é™¤è¡¨!");
 				else
-					info.setText("É¾³ı±íÊ§°Ü!");
+					info.setText("åˆ é™¤è¡¨å¤±è´¥!");
 			}
 		});
         
     }
 
-    //ÍË³ö³ÌĞòÊ±¹Ø±ÕÊı¾İ¿â
+    //é€€å‡ºç¨‹åºæ—¶å…³é—­æ•°æ®åº“
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

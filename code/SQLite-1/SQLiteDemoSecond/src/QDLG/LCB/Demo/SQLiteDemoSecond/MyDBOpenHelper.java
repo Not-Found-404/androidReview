@@ -6,41 +6,41 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 public class MyDBOpenHelper extends SQLiteOpenHelper{
-	//Êı¾İ¿â»ù±¾ĞÅÏ¢, ×Ö¶ÎÃû³Æ
-	private static final String DB_TABLE="info";  //±íÃû
+	//æ•°æ®åº“åŸºæœ¬ä¿¡æ¯, å­—æ®µåç§°
+	private static final String DB_TABLE="info";  //è¡¨å
 	public static  final  String KEY_ID="id";   
 	public static  final  String KEY_NAME="name";
 	public static  final  String KEY_AGE="age";
 	public static  final  String KEY_HEIGHT="height";
 	
-	//±ØĞëÖØĞ´µÄ¹¹Ôìº¯Êı
+	//å¿…é¡»é‡å†™çš„æ„é€ å‡½æ•°
 	public MyDBOpenHelper(Context context, String name, CursorFactory factory,
 			int version) {
 		super(context, name, factory, version);
 		// TODO Auto-generated constructor stub
 	}
 
-	//±ØĞëÖØĞ´µÄ´´½¨Êı¾İ¿â´¦Àí--´«ÈëµÄ²ÎÊıÊÇ¿ò¼ÜÖĞ´´½¨µÄSQLiteDatabase²Ù×÷¶ÔÏó
+	//å¿…é¡»é‡å†™çš„åˆ›å»ºæ•°æ®åº“å¤„ç†--ä¼ å…¥çš„å‚æ•°æ˜¯æ¡†æ¶ä¸­åˆ›å»ºçš„SQLiteDatabaseæ“ä½œå¯¹è±¡
 	@Override
 	public void onCreate(SQLiteDatabase arg0) {
 		// TODO Auto-generated method stub
 		String createSQL="create table "+DB_TABLE+" ("+KEY_ID+" integer primary key autoincrement,"
 		+KEY_NAME+" text not null,"+KEY_AGE+" integer,"+KEY_HEIGHT+" float);";
-		arg0.execSQL(createSQL); //Ö´ĞĞ´´½¨Óï¾ä
+		arg0.execSQL(createSQL); //æ‰§è¡Œåˆ›å»ºè¯­å¥
 	}
 
-	/*±ØĞëÖØĞ´µÄÉı¼¶Êı¾İ¿â´¦Àí--×¼È·µÄËµ,Ó¦¸ÃÊÇ°æ±¾±ä»¯´¦Àí:
-	 * Ö»ÒªÇ°ÃæµÄ¹¹Ôìº¯ÊıÖĞµÄ°æ±¾²»Í¬ÓÚÊı¾İ¿âÎÄ¼şµÄ°æ±¾,¾Í»áµ÷ÓÃ´Ëº¯Êı*/
-	//Èı¸ö²ÎÊı: Êı¾İ¿â¶ÔÏó,¾É°æ±¾ºÅ,ĞÂ°æ±¾ºÅ
+	/*å¿…é¡»é‡å†™çš„å‡çº§æ•°æ®åº“å¤„ç†--å‡†ç¡®çš„è¯´,åº”è¯¥æ˜¯ç‰ˆæœ¬å˜åŒ–å¤„ç†:
+	 * åªè¦å‰é¢çš„æ„é€ å‡½æ•°ä¸­çš„ç‰ˆæœ¬ä¸åŒäºæ•°æ®åº“æ–‡ä»¶çš„ç‰ˆæœ¬,å°±ä¼šè°ƒç”¨æ­¤å‡½æ•°*/
+	//ä¸‰ä¸ªå‚æ•°: æ•°æ®åº“å¯¹è±¡,æ—§ç‰ˆæœ¬å·,æ–°ç‰ˆæœ¬å·
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub
-		arg0.execSQL("DROP TABLE IF EXISTS "+DB_TABLE); //Ò»°ãÇé¿öÏÂ²»ÄÜÖ±½ÓÉ¾³ıÊı¾İ,ÏÈ±£´æ...
+		arg0.execSQL("DROP TABLE IF EXISTS "+DB_TABLE); //ä¸€èˆ¬æƒ…å†µä¸‹ä¸èƒ½ç›´æ¥åˆ é™¤æ•°æ®,å…ˆä¿å­˜...
         onCreate(arg0);
         System.out.println(arg1+"--"+arg2);
 	}
 
-	//¿ÉÑ¡µÄ·½·¨---Ã¿´Î³É¹¦´ò¿ªÊı¾İ¿âºóÊ×ÏÈ±»Ö´ĞĞ
+	//å¯é€‰çš„æ–¹æ³•---æ¯æ¬¡æˆåŠŸæ‰“å¼€æ•°æ®åº“åé¦–å…ˆè¢«æ‰§è¡Œ
 	@Override
 	public void onOpen(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
