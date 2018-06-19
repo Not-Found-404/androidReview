@@ -17,16 +17,16 @@
         + 通过调用Context.stopService()或者Service.stopSelf()停止Service
             + serivce由其他组件启动的,但是停止过程可以由其他组件或者自身完成;
             + 如果仅以启动的方式使用的service,这个service需要具备**自我管理的能力**,并且不需要通过外部组件提供的数据或者功能
-        + 引用自第三方资料
-            > + 启动方式：隐式启动和显式启动
-            > + 隐式调用，通过调Context.startService()启动Service，通过调用Context.stopService()或Service.stopSelf()停止ServiceService是由其他的组件启动的，但停止过程可以通过其他组件或自身完成；如果仅以启动方式使用的Service，这个Service需要具备自我管理的能力，且不需要通过函数调用向外部组件提供数据或功能(不能获取服务的状态或数据,只是一次性的服务，且启动后一直独立运行，不会随启动它的组件一起消亡)。
-            > + 显式启动:在Intent中指明Service所在的类，并调用startService(Intent)函数启动Service,示例代码如
-            >    <pre>final Intent serviceIntent = new Intent(this,RandomService.class);
-            >    startService(serviceintent);</pre>
-            > + 隐式启动代码如下
-            >    <pre>final Intent serviceIntent = new Intent();
-            >   serviceIntent.setAction("xxxService");
-            >   tartService(serivceIntent);</pre>
+        + 引用自他人的资料
+        > + 启动方式：隐式启动和显式启动
+        > + 隐式调用，通过调Context.startService()启动Service，通过调用Context.stopService()或Service.stopSelf()停止ServiceService是由其他的组件启动的，但停止过程可以通过其他组件或自身完成；如果仅以启动方式使用的Service，这个Service需要具备自我管理的能力，且不需要通过函数调用向外部组件提供数据或功能(不能获取服务的状态或数据,只是一次性的服务，且启动后一直独立运行，不会随启动它的组件一起消亡)。
+        > + 显式启动:在Intent中指明Service所在的类，并调用startService(Intent)函数启动Service,示例代码如
+        >    <pre>final Intent serviceIntent = new Intent(this,RandomService.class);
+        >    startService(serviceintent);</pre>
+        > + 隐式启动代码如下
+        >    <pre>final Intent serviceIntent = new Intent();
+        >   serviceIntent.setAction("xxxService");
+        >   tartService(serivceIntent);</pre>
 
     + 分类
         + 根据**启动方式**分为两类：Started和Bound。
@@ -44,9 +44,9 @@
         + Message的发送
         + Message内容的接收/执行处理。
     + 引用自他人资料
-        > 1. 定义Handler对象并初始化，重写handleMessage（）函数
-        > 2. 定义Thread线程对象，通常写成一个类形式（如class ThreadTest implements Runnable），在run()方法中操作数据，并把数据handler.sendMessage（）方法传输     到handler对象中，并开启线程。（注意：该步骤不一定用Thread实现，也可以利用TimeTask实现，具体的操作同样放在run()方法中）
-        > 3. 在handleMessage（）函数中根据不同的数据形式实现不同的方法。
+    > 1. 定义Handler对象并初始化，重写handleMessage（）函数
+    > 2. 定义Thread线程对象，通常写成一个类形式（如class ThreadTest implements Runnable），在run()方法中操作数据，并把数据handler.sendMessage（）方法传输     到handler对象中，并开启线程。（注意：该步骤不一定用Thread实现，也可以利用TimeTask实现，具体的操作同样放在run()方法中）
+    > 3. 在handleMessage（）函数中根据不同的数据形式实现不同的方法。
 
 1. **绑定方式启动服务的特点与ServiceConnection的作用。**
     + ServiceConnection的作用
@@ -57,27 +57,27 @@
         + 绑定Service后不能立即使用onServiceConnected()方法中返回的Service对象，因为此时该回调方法还没有执行完。
 
     + 绑定方式启动服务的特点，引用自他人资料
-        > + 特点：绑定方式使用service，能够获取到service对象，不仅能正常启动service,而且能调用正在运行的service对象的公有方法和属性。
-        > + 为了使service支持绑定方式，需要在service类中重载onBind()方法，并在onBind()方法中返回service对象。
-        > <pre>
-        > public class MathService extends Service{
-        >   private final IBinder mBinder = new LocalBinder();//辅助内部类的对象
-        >   //辅助获取service对象的内部类
-        >   public class LocalBinder extend Binder{
-        >       MathService getService(){//获取service对象的具体方法
-        >       return MathService.this;
-        >   }
-        >   //绑定连接之后，此方法的返回值作为onServiceConnected()方法的参数
-        >   @Override
-        >   public IBinder onBind(Intent intent){
-        >       return mBinder;//返回可以获取service的辅助对象
-        >   }
-        >}
-        > /*当service被绑定时，系统会调用onBind()函数,通过onBind()函数的返回值(mBinder)，将Service对象返回给调用者*/</pre>
+    > + 特点：绑定方式使用service，能够获取到service对象，不仅能正常启动service,而且能调用正在运行的service对象的公有方法和属性。
+    > + 为了使service支持绑定方式，需要在service类中重载onBind()方法，并在onBind()方法中返回service对象。
+    > <pre>
+    > public class MathService extends Service{
+    >   private final IBinder mBinder = new LocalBinder();//辅助内部类的对象
+    >   //辅助获取service对象的内部类
+    >   public class LocalBinder extend Binder{
+    >       MathService getService(){//获取service对象的具体方法
+    >       return MathService.this;
+    >   }
+    >   //绑定连接之后，此方法的返回值作为onServiceConnected()方法的参数
+    >   @Override
+    >   public IBinder onBind(Intent intent){
+    >       return mBinder;//返回可以获取service的辅助对象
+    >   }
+    >}
+    > /*当service被绑定时，系统会调用onBind()函数,通过onBind()函数的返回值(mBinder)，将Service对象返回给调用者*/</pre>
 1. **Handler如何实现与指定线程的绑定？**
     + 引用自他人的资料
-        > + 后台线程要想对某个目标线程发送消息，就必须能够获取目标线程的Handler对象，然后通过引用该Handler对象发送消息sendMessage(Message)。
-        > + 接收消息的目标线程要创建Handler对象，需要先继承Handler类，然后实现该类的 handleMessage(Message)方法，用来处理收到的Message的内容
+    > + 后台线程要想对某个目标线程发送消息，就必须能够获取目标线程的Handler对象，然后通过引用该Handler对象发送消息sendMessage(Message)。
+    > + 接收消息的目标线程要创建Handler对象，需要先继承Handler类，然后实现该类的 handleMessage(Message)方法，用来处理收到的Message的内容
 
 1. **SharedPreferences的概念及访问模式**。
     + 概念
@@ -295,7 +295,7 @@
     + Canvas类
         + Canvas意为“帆布”，这里我们可以理解为绘图所用的画布。使用Canvas类提供的各种方法可以在画布上绘制线条、矩形、圆以及其他可绘制图形。
         + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
-        + 引用关系：Activity    -> View -> Cavas
+        + 引用关系：Activity    -> View -> Cavans
         + 通过重写View.onDraw()方法，可以在指定的画布上绘图。onDraw()方法唯一的参数就是指定在哪个Canvas实例上绘图。
         + 画布Canvas(续)—主要方法
             + drawRect   //画矩形
@@ -360,22 +360,146 @@
         + 数值%p，如：60%p
         + 100%p表示从当前位置出发，到指定点正好一个父控件的宽度/高度
     + 引用自他人的资料
-        > 4个动画
-        > 1. AlphaAnimation
-        > 2. ScaleAnimation
-        > 3. RotateAnimation
-        > 4. TranslateAnimation
-        > + Animation.ABSOLUTE:指的绝对坐标(单位像素),假如100,就是相对于原点正方向偏移100个像素. 
-        > + Animation.RELATIVE_TO_SELF:指的是相对于自己.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移自身控件百分之五十长度. 
-        > + Animation.RELATIVE_TO_PARENT:指的是相对于父类.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移父控件百分之五十长度.
+    > 4个动画
+    > 1. AlphaAnimation
+    > 2. ScaleAnimation
+    > 3. RotateAnimation
+    > 4. TranslateAnimation
+    > + Animation.ABSOLUTE:指的绝对坐标(单位像素),假如100,就是相对于原点正方向偏移100个像素. 
+    > + Animation.RELATIVE_TO_SELF:指的是相对于自己.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移自身控件百分之五十长度. 
+    > + Animation.RELATIVE_TO_PARENT:指的是相对于父类.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移父控件百分之五十长度.
 
-1. Android中实现Tween动画的方式及步骤。
-1. Frame动画的具体实现步骤。
-1. 动画监听器的概念及实现。
-1. 简述从网络架构模式角度，网络编程的分类及其主要内容。
-1. 网络编程中，服务器端返回客户端的数据内容格式有哪些？
+1. **Android中实现Tween动画的方式及步骤。**
+    + xml实现的主要步骤
+        1. 先在res文件夹中新建anim文件夹，再在其中建立xml文件， xml文件中定义动画相关属性
+            + 动画文件内容：
+            + `<?xml version="1.0" encoding="utf-8"?><set xmlns:android="http://schemas.android.com/apk/res/android" ><此处是各类动画定义></set>`
+        1. 在代码中用下列方法加载动画效果
+            + AnimationUtils.loadAnimation(上下文,动画xml文件)可以创建一个Animation对象;
+            + 再调用View的startAnimation(Animation)方法来显示动画
+        1. 在Activity中使用`AnimationUtils.loadAnimation(MainActivity.this,R.anim.xx);`来获取。
+
+        + > 示例代码：code -> XmlAnimationDemo
+    + 代码实现动画的主要步骤
+        1. 创建一个AnimationSet对象；（如果只使用一种动画对象，则可以不建立此对象）
+        1. 创建一个或多个具体的Animation对象，并设置它们的属性；
+        1. 将Animation对象加入到AnimationSet对象中；（如果只使用一种动画对象，则可以略过此步）
+        1. 使用View对象的startAnimation()方法启动动画。
+        + > 示例代码 code -> Animation-2 -> CodeAnimationDemo
+1. **Frame动画的具体实现步骤。**
+    + 引用自他人的资料
+    > 1. 创建一个AnimationDrawable对象来表示Frame动画
+    > 1. 预先准备单帧动画图像分别命名，并存放在工程的res/drawable目录下
+    > 1. 通过addFrame()方法把每一帧要显示的内容添加进去
+    > 1. 通过start()方法就可以播放动画了
+    > 1. 设置setOneShot()方法可以设置动画是否需要重复播放。
+1. **动画监听器的概念及实现。**
+    + 引用自他人的资料
+    > + 概念：AnimationListener（动画监听接口）可以监听动画执行过程中的事件，如：动画开始执行、动画重复执行、动画执行结束等
+    > + 实现：需要实现AnimationListener接口的3个方法：
+    >   + onAnimationStart        //开始时触发
+    >   + onAnimationRepeat    //重复时触发
+    >   + onAnimationEnd         //结束时触发
+    > + 设置监听器：
+    >   + Animation.setAnimationListener（AnimationListener）
+    + > 示例代码：code -> AnimationListenerAndSocket -> AnimationListenerDemo
+1. **简述从网络架构模式角度，网络编程的分类及其主要内容。**
+    + 分类
+        + 基于Socket(套接字)
+        + 基于Http
+    + Socket 主要内容
+        + Socket通常也称做“套接字”，用于描述IP地址和端口，是网络通信过程中端点的抽象表示。
+        + Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。
+        + 一台服务器可能会提供很多服务，每种服务对应一个Socket：
+            + 服务器的Socket --“插座”
+            + 客户端对应的Socket --“插头” 
+        + Socket用于描述IP地址和端口，是一个通信链的句柄。
+    + Http主要内容
+        + HTTP（HyperText Transport Protocal）协议是一个适用于分布式超媒体信息系统的应用层协议。
+        + 绝大多数的Web开发都是构建在Http协议之上的Web应用。HTTP报文是面向文本的，报文中的每一个字段都是一些ASCII码串，各个字段的长度是不确定的。
+        + Http协议的特点：
+            + 支持C/S模式
+            + 简单快速，客户向服务器请求服务时，只需要传送请求方法（GET、HEAD、POST）和路径  ，因为Http协议简单，所以服务器的程序规模小，通信速度快；
+            + 短连接、无状态，每次仅处理一个请求，处理完并收到应答后，即断开连接；事务处理无需记忆状态。
+
+1. **网络编程中，服务器端返回客户端的数据内容格式有哪些？**
+    + HTML代码
+    + XML字符串
+        + 这种方式使用的比较多，返回的数据需要通过XML解析（SAX、DOM，Pull,等）器进行解析。
+    + json对象（字符串）
 1. 简述TCP Socket通信时服务器端和客户端的操作步骤。
+    + 引用自他人的资料
+    > + 服务器端—(新线程中操作)
+    >   1. 创建一个ServerSocket，并绑到指定端口上；
+    >   1. 调用accept(),监听连接请求，如果客户端请求连接，则接受连接，返回通信套接字Socket；
+    >   1. 调用Socket类的getOutputStream()和getInputStream()获取输出和输入流，开始网络数据的发送和接收(循环-读写)；
+    >   1. 关闭通信套接字。
+    >
+    > + 客户端—(新线程中操作)
+    >   1. 创建一个Socket，并连接到服务器；
+    >   1. 调用Socket类的getOutputStream()和getInputStream()获取输出和输入流，开始网络数据的发送和接收(循环-读写)；
+    >   1. 关闭通信套接
+    + > 示例代码：code -> AnimationListenerAndSocket -> TCPsocketDemo
 1. 简述UDP Socket通信时服务器端（接收）和客户端（发送）的操作步骤。
-1. HttpURLConnection编程的主要步骤。
+    + 引用自他人的资料
+    > + “服务器端”(新线程中操作)—接收方
+    >   1. 创建一个DatagramSocket，并绑定到指定端口上；
+    >   1. 调用DatagramPacket（），建立一个字节数组以接收UDP包；
+    >   1. 调用DatagramSocket类的receive（），接收UDP包；
+    >   1. 关闭数据报套接字。
+    >   1. “客户端”  (新线程中操作)—发送方
+    >   1. 创建一个DatagramSocket（不需要绑定特定端口）
+    >   1. 调用DatagramPacket（）建立要发送的UDP包；
+    >   1. 调用DatagramSocket类的send（）发送UDP包；
+    >   1. 关闭数据报套接字。
+    > + “客户端”  (新线程中操作)—发送方
+    >   1. 创建一个DatagramSocket（不需要绑定特定端口）
+    >   1. 调用DatagramPacket（）建立要发送的UDP包；
+    >   1. 调用DatagramSocket类的send（）发送UDP包；
+    >   1. 关闭数据报套接字。
+    + > 示例代码：code -> AnimationListenerAndSocket -> UDPsocket
+1. **HttpURLConnection编程的主要步骤。**
+    + 引用自他人的资料
+    > 1. 创建URL对象
+    > 1. URL打开URL地址连接，也就是openConnection()
+    > 1. 设置请求头的相关方式Post/Get
+    > 1. 设置请求头的相关属性
+    > 1. 获取输入/输出流
+    > 1. 读取/写入数据
+    > 1. 清空缓冲区
+    > 1. 关闭连接
+    + > 示例代码：code -> HttpCode
 1. 简述JSON字符串的解析过程。
+    + 引用自他人的资料
+    > + 析JSON数据时，首先需要明确待解析的是JSON Object还是JSON Array，然后再解析
+    > + 解析JSON Object
+    >    + JSONObject.getXXXX（“NameString”），其中XXXX表示具体的数据类型
+    >    + 例如：
+    >    <pre>//构建JSONObject对象
+    >   JSONObject demoJson = new JSONObject(jsonString); 
+    >   //或者
+    >   demoJson= JSONObject.fromObject(jsonString);
+    >   String s = demoJson.getString("name"); //获取数据</pre>
+    > + 解析JSON Array
+    >   + 需要用循环语句逐个解析JSON Array的每个元素；
+    >   + 例如：（假设解析的JSON Array的每个元素都是JSON Object）
+    >   <pre>JSONObject demoJson = new JSONObject(jsonString);//也可from… 
+    >   JSONArray itemList = demoJson.getJSONArray(“arrayName"); 
+    >   for(int i = 0;  i < itemList.length();  i++){
+    >       JSONObject jsonObject= (JSONObject) itemList.get (i);
+    >       //继续解析jsonObject……
+    >   }</pre>
+    > + 如果需要解析的JSON字符串中既有JSON Object，也有JSON Array，则需要综合运用上述2种方法分别获取相应的数据
 1. 调用Web Service的主要步骤。
+    + 引用自他人的资料
+    > 1. 指定WebService的命名空间和调用的方法名。
+    >       + 如：`SoapObject request =new SoapObject(“http:// serviceAddressName”, “methodName");`
+    > 1. 设置调用方法的参数值，如果没有参数，可以省略；
+    > 1. 生成调用WebService方法的SOAP请求信息。该信息由SoapSerializationEnvelope对象描述。
+    > 1. 创建HttpTransportsSE对象。通过HttpTransportsSE类的构造方法可以指定WebService的URL。
+    > 1. 使用call方法调用WebService方法：
+    >       + `ht.call(null，envelope); `
+    >       + call方法的第一个参数（接口参数）一般为null（或 命名空间 +调用的方法名称）
+    >       + 第2个参数就是在前述步骤创建的SoapSerializationEnvelope对象。
+    > 1. 使用SoapSerializationEnvelope类的getResponse方法（或 读bodyin属性）获得WebService方法的返回结果：
+    >       + SoapObject soapObject =(SoapObject)envelope.getResponse();
