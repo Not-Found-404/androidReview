@@ -36,7 +36,7 @@
             + 本地服务用于应用程序内部
             + 远程服务用于安卓系统内部之间的应用程序
     + > 示例代码: code -> ServiceDemoFirst
-1. **简述Android系统中利用HandlerThread的实现界面更新的步骤。**
+1. **简述Android系统中利用HandlerThread的实现界面更新的步骤。**<font color = red>(实验内容)</font>
     + 在单线程模型下，进行多线程程序设计时，Android可以通过Message Queue并结合Handler和Looper在线程间进行信息交换。
 
     + Message(消息)  —  可理解为线程间交流(双向)的信息。一般情况下，处理数据的后台线程需要更新UI，则发送Message(内含一些数据->Bundle对象-> setData())给前台UI主线程；或者，前台UI主线程需要发送一些数据给后台线程进行 查询/计算/统计 等处理;
@@ -134,7 +134,7 @@
     + C:一致性（Consistency）
     + I:隔离性（Isolation—可串行化）
     + D:持久性（Durability）
-1. **简述SQLiteOpenHelper类的作用及使用方法**
+1. **简述SQLiteOpenHelper类的作用及使用方法**<font color = red>(实验内容)</font>
     + 作用
         + 用于对数据库版本进行管理，该类是一个抽象类，必须继承它才能使用。
         + SQLiteOpenHelper 类根据开发应用程序的需要，封装了创建和更新数据库使用的逻辑，至少需要实现三个方法：
@@ -232,7 +232,7 @@
 
     + 提供位置服务，首先需要获得LocationManager对象，使用LocationManager对象的isProviderEnabled(provider)方法来检测定位设备是否已经启用
 
-1. **如何实现追踪定位？**
+1. **如何实现追踪定位？**<font color = red>(实验内容)</font>
     + 通过设置监听器，来监听位置变化。可以根据位置的距离变化(关键设置)和时间间隔设定产生位置改变事件的条件，这样可以避免因微小的距离变化而产生大量的位置改变事件。
 
     + LocationManager提供了一种便捷、高效的位置监视方法requestLocationUpdates()：
@@ -319,7 +319,7 @@
         + 使用onDraw绘图：更新View需要使用invalidate方法。需要注意的是，invalidate 不能直接在除UI线程之外的线程中调用。
         + 如果需要View接受用户的输入，一般需要重载onKeyUp、onKeyDown、onTouchEvent等方法。
     + > 示例代码：code -> MyViewAndDrawDemo -> MyViewDemo
-1. **Android 2D绘图相关的对象有哪些？**
+1. **Android 2D绘图相关的对象有哪些？**<font color = red>(实验内容)</font>
     + Activity对象 和 View对象
         + 在Android中，屏幕是由Activity类的对象支配的，Activity类的对象引用View类的对象，而View类的对象又引用Canvas类的对象。
     + Canvas类
@@ -399,7 +399,7 @@
     > + Animation.RELATIVE_TO_SELF:指的是相对于自己.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移自身控件百分之五十长度. 
     > + Animation.RELATIVE_TO_PARENT:指的是相对于父类.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移父控件百分之五十长度.
 
-1. **Android中实现Tween动画的方式及步骤。**
+1. **Android中实现Tween动画的方式及步骤。**<font color = red>(实验内容)</font>
     + xml实现的主要步骤
         1. 先在res文件夹中新建anim文件夹，再在其中建立xml文件， xml文件中定义动画相关属性
             + 动画文件内容：
